@@ -2,6 +2,7 @@ from io import BytesIO
 import re
 import PyPDF2
 import requests
+
 class PdfParser:
     def __init__(self,pdf_url):
         try:
@@ -14,10 +15,10 @@ class PdfParser:
                     data += pageObj.extract_text()
             self.pdf_data = data
         except:
-            return 'PDF recovery error'
+            pdf_url = False
 
     '''
-    By using a regex, filter the text in the pdf to extract only the medicine side effects
+    By using a regex, filter the text in the pdf to extract only the medicine side effects.
     '''
     def get_side_effects(self):
         raw_side_effects = re.findall('(?i)[\d]\.\s*possibili effetti indesiderati(.*?)\.\n[\d]\.',self.pdf_data,re.DOTALL)[1]

@@ -8,6 +8,8 @@ from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurn
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory
 from botbuilder.schema import InputHints
+from PharmaBot.utility.pdf_parser import PdfParser
+from PharmaBot.servicesResources.info_medicine import InfoMedicine
 
 class SideEffectsDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -45,9 +47,14 @@ class SideEffectsDialog(ComponentDialog):
 
         # Capture the response to the previous step's prompt
         medicine_info.name = step_context.result
-        message_text = 'Its works porco dio'
+
+        bing_api = InfoMedicine()
+        pdf_link = bing_api.get_brochure(medicine_info.name)
+        pdf_file = PdfParser(pdf_link)
+        side_effects = pdf_file.get_side_effects()
+
         prompt_message = MessageFactory.text(
-                message_text, message_text, InputHints.expecting_input
+                side_effects, side_effects, InputHints.expecting_input
             )
         #returning the results at the users
         await step_context.prompt(
