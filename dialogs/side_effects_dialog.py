@@ -10,6 +10,7 @@ from botbuilder.core import MessageFactory
 from botbuilder.schema import InputHints
 from PharmaBot.utility.pdf_parser import PdfParser
 from PharmaBot.servicesResources.info_medicine import InfoMedicine
+from PharmaBot.utility import util_func
 
 class SideEffectsDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
@@ -52,6 +53,7 @@ class SideEffectsDialog(ComponentDialog):
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
         side_effects = pdf_file.get_side_effects()
+        side_effects = util_func.duplicate_new_line(side_effects)
 
         prompt_message = MessageFactory.text(
                 side_effects, side_effects, InputHints.expecting_input

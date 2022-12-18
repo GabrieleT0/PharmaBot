@@ -11,3 +11,7 @@ def get_pdf_link(links):
     except:
         return False
     
+def duplicate_new_line(string):
+    str = string.replace('\n•','\n\n•')
+    str = str.replace('\n-','\n\n-')
+    return str

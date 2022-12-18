@@ -9,7 +9,7 @@ class PdfParser:
             r = requests.get(pdf_url)
             with BytesIO(r.content) as data:
                 read_pdf = PyPDF2.PdfFileReader(data)
-                data = ''
+                data = ""
                 for i in range(read_pdf.numPages):
                     pageObj = read_pdf.getPage(i)
                     data += pageObj.extract_text()
