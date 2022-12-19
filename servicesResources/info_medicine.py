@@ -35,15 +35,25 @@ class InfoMedicine:
         return pdf_link
 
     def get_img(self,medicine_info):
-        query = f"{medicine_info}"
-        params = {"q":query,"imageType": "Trasparent",'setLang':'it-IT','mkt':'it-IT','imageType':'photo'}
+        query = f"{medicine_info} medicinale"
+        params = {"q":query,'setLang':'it-IT','mkt':'it-IT','imageType':'photo'}
         response = requests.get(self.search_url_img,headers=self.headers,params=params)
         response.raise_for_status()
         response_results = response.json()
         thumbnail_urls = [img["thumbnailUrl"] for img in response_results["value"][:16]]
         
         return thumbnail_urls[0]
+    
+    def get_what(self,medicine_info):
+        query = f"a cosa serve {medicine_info}"
+        params = {"q":query,"textDecorations":True,"textFormat":"HTML",'setLang':'it-IT','mkt':'it-IT','count':'3'}
+        response = requests.get(self.search_url,headers=self.headers,params=params)
+        response.raise_for_status()
+        response_results = response.json()
+
+        print(response_results)
+
 
 
 bing_api = InfoMedicine()
-bing_api.get_img('brufen')
+bing_api.get_what('oki')

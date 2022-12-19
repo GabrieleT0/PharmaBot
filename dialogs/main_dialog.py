@@ -11,16 +11,19 @@ from helpers.luis_helper import LuisHelper, Intent
 from cognitiveModels.pharmaBotRecognizer import PharmaBotRecognizer
 from dialogs.side_effects_dialog import SideEffectsDialog
 from medicine_details import MedicineDetails
+from dialogs.brochure_dialog import BrochureDialog
 
 class MainDialog(ComponentDialog):
-    def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog):
+    def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, brochure_dialog: BrochureDialog):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self._luis_recognizer = luis_recognizer
         self._side_effects_dialog_id = side_effects_dialog.id
+        self._brouchure_dialog_id = brochure_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
+        self.add_dialog(brochure_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -77,6 +80,9 @@ class MainDialog(ComponentDialog):
                 get_weather_text, get_weather_text, InputHints.ignoring_input
             )
             await step_context.context.send_activity(get_weather_message)
+        
+        if intent == Intent.BROCHURE_INFO.value:
+            return await step_context.begin_dialog(self._brouchure_dialog_id,luis_result)
 
         else:
             didnt_understand_text = (
@@ -100,7 +106,7 @@ class MainDialog(ComponentDialog):
             # If the call to the booking service was successful tell the user.
             # time_property = Timex(result.travel_date)
             # travel_date_msg = time_property.to_natural_language(datetime.now())
-            msg_txt = f"Hai cercato informazioni su {result.name} {result.type} {result.grams}"
+            msg_txt = f"Hai cercato informazioni su {result.name.capitalize()} {result.type} {result.grams}"
             message = MessageFactory.text(msg_txt, msg_txt, InputHints.ignoring_input)
             await step_context.context.send_activity(message)
 
