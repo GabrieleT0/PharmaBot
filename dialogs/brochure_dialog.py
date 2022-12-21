@@ -67,8 +67,10 @@ class BrochureDialog(ComponentDialog):
         brochure_url = bing_api.get_brochure(medicine_info.name)
         image_url = bing_api.get_img(medicine_info.name)
 
-        message = MessageFactory.attachment(self.create_hero_card(brochure_url,medicine_info.name,image_url))
-
+        if brochure_url != False:
+            message = MessageFactory.attachment(self.create_hero_card(brochure_url,medicine_info.name,image_url))
+        else:
+            message = MessageFactory.text('Errore nel recupero del pdf del foglio illustrativo.')
         #returning the results at the users
         await step_context.prompt(
             TextPrompt.__name__, PromptOptions(prompt=message)

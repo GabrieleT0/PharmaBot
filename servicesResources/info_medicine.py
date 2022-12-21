@@ -36,7 +36,7 @@ class InfoMedicine:
 
     def get_img(self,medicine_info):
         query = f"{medicine_info} medicinale"
-        params = {"q":query,'setLang':'it-IT','mkt':'it-IT','imageType':'photo'}
+        params = {"q":query,'setLang':'it-IT','mkt':'it-IT'}
         response = requests.get(self.search_url_img,headers=self.headers,params=params)
         response.raise_for_status()
         response_results = response.json()
@@ -46,14 +46,14 @@ class InfoMedicine:
     
     def get_what(self,medicine_info):
         query = f"a cosa serve {medicine_info}"
-        params = {"q":query,"textDecorations":True,"textFormat":"HTML",'setLang':'it-IT','mkt':'it-IT','count':'3'}
+        params = {"q":query,"textDecorations":True,"textFormat":"HTML",'setLang':'it-IT','mkt':'it-IT'}
         response = requests.get(self.search_url,headers=self.headers,params=params)
         response.raise_for_status()
         response_results = response.json()
 
-        print(response_results)
+        print(json.dumps(response_results,indent=4))
 
 
 
 bing_api = InfoMedicine()
-bing_api.get_what('oki')
+bing_api.get_what('oki gola')
