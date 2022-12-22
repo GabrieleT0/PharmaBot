@@ -36,14 +36,14 @@ class PharmacyLocation:
             nearby_pharma.append((latitude,longitude,name,phone))
 
         #la is the x and y coordinate for the text position. ls is for the size of the labels. lc for label color. co for the pin color
-        pinsOrg = f"default|la10 2|ls9|coFF3333|lc000000||'Tu sei qui'{lon} {lat}"
+        pinsOrg = f"default|la10 2|ls11|coFF3333|lc000000||'Tu sei qui'{lon} {lat}"
         layer = 'basic'
         style = 'main'
         zoom = '16'
         center = f'{lon},{lat}'
         height = '600'
         width = '600'
-        pins = 'default|ls7|co00E600|lc000000|la0 1||'
+        pins = 'default|ls9|co00E600|lc000000|la0 1||'
 
         for i in range(len(nearby_pharma)-1):
             lat,lon,name,phone = nearby_pharma[i]
@@ -73,9 +73,12 @@ class PharmacyLocation:
         name = poi['poi'].get('name','')
         phone = poi['poi'].get('phone','')
         address = poi.get('address','')
+        address = address['freeformAddress']
+
+
 
         return(name,phone,address)
 
 azure_maps_api = PharmacyLocation()
-latitude,longitude = azure_maps_api.get_lat_long('San Gregorio Magno','Via Roma,12 84020')
-azure_maps_api.get_nearby_pharma(latitude,longitude)
+latitude,longitude = azure_maps_api.get_lat_long('Salerno','Via Gelso,69 84126')
+azure_maps_api.get_nearest_pharma(latitude,longitude)

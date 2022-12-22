@@ -87,5 +87,5 @@ class BrochureDialog(ComponentDialog):
         return await step_context.end_dialog()
 
     def create_hero_card(self,pdf_link,medicine_name,img_url) -> Attachment:
-        card = HeroCard(images=[CardImage(url=img_url)],buttons=[CardAction(type=ActionTypes.download_file,title=f'Clicca e scarica il foglio illustrativo di {medicine_name.capitalize()} in pdf',value=pdf_link)],)
+        card = HeroCard(images=[CardImage(url=img_url)],buttons=[CardAction(type=ActionTypes.download_file,title=f'Clicca e visualizza il foglio illustrativo di {medicine_name.capitalize()} in pdf',value=pdf_link)],)
         return CardFactory.hero_card(card)

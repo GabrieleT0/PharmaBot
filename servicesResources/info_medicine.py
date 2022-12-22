@@ -52,8 +52,3 @@ class InfoMedicine:
         response_results = response.json()
 
         print(json.dumps(response_results,indent=4))
-
-
-
-bing_api = InfoMedicine()
-bing_api.get_what('oki gola')
