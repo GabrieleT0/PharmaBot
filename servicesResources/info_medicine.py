@@ -21,7 +21,7 @@ class InfoMedicine:
     '''
     def get_brochure(self,medicine_info):
         query = f"{medicine_info} foglio illustrativo+site:farmaci.agenziafarmaco.gov.it+ext:pdf+filetype:pdf"
-        params = {"q":query,"textDecorations":True,"textFormat":"HTML",'setLang':'it-IT','mkt':'it-IT','count':'3'}
+        params = {"q":query,"textDecorations":True,"textFormat":"HTML",'setLang':'it-IT','mkt':'it-IT'}
         response = requests.get(self.search_url,headers=self.headers,params=params)
         response.raise_for_status()
         response_results = response.json()

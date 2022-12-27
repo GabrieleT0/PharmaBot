@@ -4,6 +4,23 @@
 from botbuilder.core import ActivityHandler, ConversationState, UserState, TurnContext
 from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
+from botbuilder.core import MessageFactory, TurnContext, CardFactory
+from botbuilder.schema import (
+    ChannelAccount,
+    HeroCard,
+    CardAction,
+    CardImage,
+    ActivityTypes,
+    Attachment,
+    AttachmentData,
+    Activity,
+    ActionTypes,
+    SuggestedActions
+)
+from PharmaBot.servicesResources.computer_vision import ComputerVision
+from PharmaBot.servicesResources.info_medicine import InfoMedicine
+from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
+
 
 #Bot used for conversation
 class DialogBot(ActivityHandler):
@@ -34,8 +51,61 @@ class DialogBot(ActivityHandler):
         await self.user_state.save_changes(turn_context, False)
 
     async def on_message_activity(self, turn_context: TurnContext):
+        if turn_context.activity.attachments is not None:
+            await self._send_suggested_actions(turn_context,)
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,
             self.conversation_state.create_property("DialogState"),
         )
+
+    
+    async def _send_suggested_actions(self, turn_context: TurnContext):
+        """
+        Creates and sends an activity with suggested actions to the user. When the user
+        clicks one of the buttons the text value from the "CardAction" will be displayed
+        in the channel just as if the user entered the text. There are multiple
+        "ActionTypes" that may be used for different situations.
+        """
+        attach_obj = turn_context.activity.attachments[0]
+        computer_vision = ComputerVision()
+        img_text = computer_vision.get_text_from_img(attach_obj.content_url)
+        bing_api = InfoMedicine()
+        pdf_link = bing_api.get_brochure(img_text)
+        img_url = bing_api.get_img(img_text)
+        card = HeroCard(images=[CardImage(url=img_url)],buttons=[CardAction(type=ActionTypes.download_file,title=f'Clicca e visualizza il foglio illustrativo di {img_text.capitalize()} in pdf',value=pdf_link)],)
+        card = CardFactory.hero_card(card)
+        message = MessageFactory.attachment(card)
+        await turn_context.send_activity(message)
+
+        
+        '''
+        reply = MessageFactory.text("What is your favorite color?")
+
+        reply.suggested_actions = SuggestedActions(
+            actions=[
+                CardAction(
+                    title="Red",
+                    type=ActionTypes.im_back,
+                    value="Red",
+                    image="https://via.placeholder.com/20/FF0000?text=R",
+                    image_alt_text="R",
+                ),
+                CardAction(
+                    title="Yellow",
+                    type=ActionTypes.im_back,
+                    value="Yellow",
+                    image="https://via.placeholder.com/20/FFFF00?text=Y",
+                    image_alt_text="Y",
+                ),
+                CardAction(
+                    title="Blue",
+                    type=ActionTypes.im_back,
+                    value="Blue",
+                    image="https://via.placeholder.com/20/0000FF?text=B",
+                    image_alt_text="B",
+                ),
+            ]
+        )
+        '''
+        #return await turn_context.send_activity(reply)

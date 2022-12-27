@@ -44,6 +44,9 @@ class MainDialog(ComponentDialog):
                     input_hint=InputHints.ignoring_input,
                 )
             )
+        
+        if step_context._turn_context.activity.attachments is not None:
+            print('ciao')
 
             return await step_context.next(None)
         message_text = (
@@ -60,6 +63,7 @@ class MainDialog(ComponentDialog):
         )
 
     async def act_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
         if not self._luis_recognizer.is_configured:
             # LUIS is not configured, we just run the side_effects_dialog path with an empty MedicieDetails.
             return await step_context.begin_dialog(
@@ -84,10 +88,10 @@ class MainDialog(ComponentDialog):
             )
             await step_context.context.send_activity(get_weather_message)
         
-        if intent == Intent.BROCHURE_INFO.value:
+        if intent == Intent.BROCHURE_INFO.value and luis_result:
             return await step_context.begin_dialog(self._brouchure_dialog_id,luis_result)
         
-        if intent == Intent.NEARBY_PHARMA.value:
+        if intent == Intent.NEARBY_PHARMA.value and luis_result:
             return await step_context.begin_dialog(self._nerby_ph_dialog_id,luis_result)
 
         else:
