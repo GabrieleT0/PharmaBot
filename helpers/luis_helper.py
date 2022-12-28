@@ -4,11 +4,14 @@ from botbuilder.ai.luis import LuisRecognizer
 from botbuilder.core import IntentScore, TopIntent, TurnContext
 from medicine_details import MedicineDetails
 from location_info import LocationInfo
+from user_info import UserInfo
 
 class Intent(Enum):
     SIDE_EFFECTS = "effettiIndesiderati"
     BROCHURE_INFO = "foglioIllustrativo"
     NEARBY_PHARMA = "farmacieVicine"
+    REGISTRATION = 'registrazione'
+    LOGIN = 'login'
     CANCEL = "Cancel"
     GET_WEATHER = "GetWeather"
     NONE_INTENT = "NoneIntent"
@@ -83,7 +86,12 @@ class LuisHelper:
                     result.address = address[0]['text']
                 if len(house_number) > 0:
                     result.house_number = house_number[0]['text']
-                
+            
+            if intent == Intent.REGISTRATION.value:
+                result = UserInfo()
+
+            if intent == Intent.LOGIN.value:
+                result = UserInfo()
             
 
 

@@ -22,6 +22,8 @@ from dialogs import MainDialog
 from dialogs.side_effects_dialog import SideEffectsDialog
 from dialogs.brochure_dialog import BrochureDialog
 from dialogs.nearby_pharmacies_dialog import NearbyPharmaciesDialog
+from dialogs.registration_dialog import RegistrationDialog
+from dialogs.login_dialog import LoginDialog
 
 CONFIG = DefaultConfig()
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
@@ -33,7 +35,9 @@ RECOGNIZER = PharmaBotRecognizer(CONFIG)
 SIDE_EFFECTS_DIALOG = SideEffectsDialog()
 BROCHURE_DIALOG = BrochureDialog()
 NEARBY_PHARMACY_DIALOG = NearbyPharmaciesDialog()
-DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG)
+REGISTRATION_DIALOG = RegistrationDialog()
+LOGIN_DIALOG = LoginDialog()
+DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG)
 
 BOT = PharmaBot(CONVERSATION_STATE,USER_STATE,DIALOG)
 

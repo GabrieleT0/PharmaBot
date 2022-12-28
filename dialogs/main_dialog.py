@@ -13,20 +13,28 @@ from dialogs.side_effects_dialog import SideEffectsDialog
 from medicine_details import MedicineDetails
 from dialogs.brochure_dialog import BrochureDialog
 from dialogs.nearby_pharmacies_dialog import NearbyPharmaciesDialog
+from dialogs.registration_dialog import RegistrationDialog
+from dialogs.login_dialog import LoginDialog
 
 class MainDialog(ComponentDialog):
-    def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog):
+    def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, 
+                    brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog, 
+                    registration_dialog:RegistrationDialog,login_dialog:LoginDialog):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self._luis_recognizer = luis_recognizer
         self._side_effects_dialog_id = side_effects_dialog.id
         self._brouchure_dialog_id = brochure_dialog.id
         self._nerby_ph_dialog_id = nerby_ph_dialog.id
+        self._registration_dialog_id = registration_dialog.id
+        self._login_dialog_id = login_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
         self.add_dialog(brochure_dialog)
         self.add_dialog(nerby_ph_dialog)
+        self.add_dialog(registration_dialog)
+        self.add_dialog(login_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -44,9 +52,6 @@ class MainDialog(ComponentDialog):
                     input_hint=InputHints.ignoring_input,
                 )
             )
-        
-        if step_context._turn_context.activity.attachments is not None:
-            print('ciao')
 
             return await step_context.next(None)
         message_text = (
@@ -93,6 +98,12 @@ class MainDialog(ComponentDialog):
         
         if intent == Intent.NEARBY_PHARMA.value and luis_result:
             return await step_context.begin_dialog(self._nerby_ph_dialog_id,luis_result)
+
+        if intent == Intent.REGISTRATION.value and luis_result:
+            return await step_context.begin_dialog(self._registration_dialog_id,luis_result)
+        
+        if intent == Intent.LOGIN.value and luis_result:
+            return await step_context.begin_dialog(self._login_dialog_id,luis_result)
 
         else:
             didnt_understand_text = (

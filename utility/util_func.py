@@ -1,6 +1,6 @@
 import re
 import requests
-
+import bcrypt
 
 def get_pdf_link(links):
     try:
@@ -25,3 +25,14 @@ def clean_data(pdf_data):
     pdf_data = pdf_data.replace('','-')
 
     return pdf_data
+
+def get_hashed_pwd(password):
+    byte_pwd = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    pwd_hash = bcrypt.hashpw(byte_pwd,salt)
+
+    return pwd_hash.decode()
+
+def check_pwd(password,pwd_hash):
+    password = password.encode('utf-8')
+    return bcrypt.checkpw(password,pwd_hash)
