@@ -5,7 +5,7 @@ from botbuilder.dialogs import (
     DialogTurnResult,
 )
 from botbuilder.dialogs.prompts import TextPrompt, PromptOptions
-from botbuilder.core import MessageFactory, TurnContext
+from botbuilder.core import MessageFactory, TurnContext, UserState
 from botbuilder.schema import InputHints
 from helpers.luis_helper import LuisHelper, Intent
 from cognitiveModels.pharmaBotRecognizer import PharmaBotRecognizer
@@ -15,12 +15,15 @@ from dialogs.brochure_dialog import BrochureDialog
 from dialogs.nearby_pharmacies_dialog import NearbyPharmaciesDialog
 from dialogs.registration_dialog import RegistrationDialog
 from dialogs.login_dialog import LoginDialog
+from user_info import UserInfo
 
 class MainDialog(ComponentDialog):
     def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, 
                     brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog, 
-                    registration_dialog:RegistrationDialog,login_dialog:LoginDialog):
+                    registration_dialog:RegistrationDialog,login_dialog:LoginDialog, user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
+
+        self.user_profile_accessor = user_state.create_property("UserInfo")
 
         self._luis_recognizer = luis_recognizer
         self._side_effects_dialog_id = side_effects_dialog.id
@@ -43,7 +46,7 @@ class MainDialog(ComponentDialog):
 
         self.initial_dialog_id = "WFDialog"
 
-    async def intro_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def intro_step(self, step_context: WaterfallStepContext) -> DialogTurnResult: 
         if not self._luis_recognizer.is_configured:
             await step_context.context.send_activity(
                 MessageFactory.text(
@@ -68,7 +71,7 @@ class MainDialog(ComponentDialog):
         )
 
     async def act_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-
+        session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
         if not self._luis_recognizer.is_configured:
             # LUIS is not configured, we just run the side_effects_dialog path with an empty MedicieDetails.
             return await step_context.begin_dialog(
@@ -100,10 +103,20 @@ class MainDialog(ComponentDialog):
             return await step_context.begin_dialog(self._nerby_ph_dialog_id,luis_result)
 
         if intent == Intent.REGISTRATION.value and luis_result:
-            return await step_context.begin_dialog(self._registration_dialog_id,luis_result)
-        
+            if session_account.email is None:
+                return await step_context.begin_dialog(self._registration_dialog_id,luis_result)
+            else:
+                alredy_login = (f"Sei gia autenticato come {session_account.email}")
+                alredy_login = MessageFactory.text(alredy_login, alredy_login, InputHints.ignoring_input)
+                await step_context.context.send_activity(alredy_login)
+
         if intent == Intent.LOGIN.value and luis_result:
-            return await step_context.begin_dialog(self._login_dialog_id,luis_result)
+            if session_account.email is None:
+                return await step_context.begin_dialog(self._login_dialog_id,luis_result)
+            else:
+                alredy_login = (f"Hai già fatto il login come {session_account.firstName} {session_account.lastName}")
+                alredy_login = MessageFactory.text(alredy_login, alredy_login, InputHints.ignoring_input)
+                await step_context.context.send_activity(alredy_login)
 
         else:
             didnt_understand_text = (

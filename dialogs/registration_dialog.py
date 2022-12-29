@@ -2,20 +2,23 @@ from botbuilder.dialogs import (
     ComponentDialog,
     WaterfallDialog,
     WaterfallStepContext,
-    DialogTurnResult,
+    DialogTurnResult
 )
 from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
-from botbuilder.core import MessageFactory
+from botbuilder.core import MessageFactory, UserState
 from botbuilder.schema import InputHints
 from PharmaBot.utility.pdf_parser import PdfParser
 from PharmaBot.servicesResources.info_medicine import InfoMedicine
 from PharmaBot.utility import util_func
 from PharmaBot.servicesResources import db_interface
+from user_info import UserInfo
 
 class RegistrationDialog(ComponentDialog):
-    def __init__(self, dialog_id: str = None):
+    def __init__(self, user_state:UserState,dialog_id: str = None):
         super(RegistrationDialog,self).__init__(dialog_id or RegistrationDialog.__name__)
+        
+        self.user_profile_accessor = user_state.create_property("UserInfo")
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(
@@ -118,6 +121,8 @@ class RegistrationDialog(ComponentDialog):
         hashed_pwd = util_func.get_hashed_pwd(account_info.password)
         result = db_interface.insert_user(account_info.email,account_info.firstName,account_info.lastName,hashed_pwd)
         if result == True:
+            session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
+            session_account.email = account_info.email
             message_text = 'Account creato con successo, ora puoi registrare i tuoi medicinali'
         else:
             message_text = "Errore nella creazione dell'account, riprova"
