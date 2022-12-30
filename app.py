@@ -24,7 +24,7 @@ from dialogs.brochure_dialog import BrochureDialog
 from dialogs.nearby_pharmacies_dialog import NearbyPharmaciesDialog
 from dialogs.registration_dialog import RegistrationDialog
 from dialogs.login_dialog import LoginDialog
-
+from dialogs.inserting_medicines_dialog import InsertingMedicinesDialog
 CONFIG = DefaultConfig()
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 MEMORY = MemoryStorage()
@@ -37,7 +37,8 @@ BROCHURE_DIALOG = BrochureDialog()
 NEARBY_PHARMACY_DIALOG = NearbyPharmaciesDialog()
 REGISTRATION_DIALOG = RegistrationDialog(USER_STATE)
 LOGIN_DIALOG = LoginDialog(USER_STATE)
-DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,USER_STATE)
+INSERT_MEDICINE_DIALOG = InsertingMedicinesDialog(USER_STATE)
+DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,INSERT_MEDICINE_DIALOG,USER_STATE)
 
 BOT = PharmaBot(CONVERSATION_STATE,USER_STATE,DIALOG)
 

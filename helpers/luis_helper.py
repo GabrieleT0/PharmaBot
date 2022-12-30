@@ -11,6 +11,7 @@ class Intent(Enum):
     BROCHURE_INFO = "foglioIllustrativo"
     NEARBY_PHARMA = "farmacieVicine"
     REGISTRATION = 'registrazione'
+    INSERT_MEDICINE = 'inserisciMedicine'
     LOGIN = 'login'
     CANCEL = "Cancel"
     GET_WEATHER = "GetWeather"
@@ -92,7 +93,19 @@ class LuisHelper:
 
             if intent == Intent.LOGIN.value:
                 result = UserInfo()
-            
+
+            if intent == Intent.INSERT_MEDICINE.value:
+                result = MedicineDetails()
+                medicine_name = recognizer_result.entities.get("$instance",{}).get("farmaco",[])
+                medicine_type = recognizer_result.entities.get("$instance",{}).get("tipo",[])
+                medicine_grams = recognizer_result.entities.get("$instance",{}).get("grammi",[])
+                if len(medicine_name) > 0:
+                    result.name = medicine_name[0]['text']
+                if len(medicine_type) > 0:
+                    result.type = medicine_type[0]['text']
+                if len(medicine_grams) >0:
+                    result.grams = medicine_grams[0]['text']
+
 
 
         except Exception as exception:

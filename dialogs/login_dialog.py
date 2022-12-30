@@ -71,6 +71,17 @@ class LoginDialog(ComponentDialog):
         account_info.password = step_context.result
 
         pwd = db_interface.get_pwd(account_info.email)
+        if pwd == False:
+            message = f'Non ti sei registrato'
+            prompt_message = MessageFactory.text(
+                    message, message, InputHints.expecting_input
+                )
+            #returning the results at the users
+            await step_context.prompt(
+                TextPrompt.__name__, PromptOptions(prompt=prompt_message)
+            )
+            return await step_context.end_dialog(account_info)
+
         result = util_func.check_pwd(account_info.password,pwd.encode('utf-8'))
         if result == True:
             account_info = db_interface.login(account_info.email)

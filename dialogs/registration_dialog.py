@@ -125,13 +125,9 @@ class RegistrationDialog(ComponentDialog):
             session_account.email = account_info.email
             message_text = 'Account creato con successo, ora puoi registrare i tuoi medicinali'
         else:
-            message_text = "Errore nella creazione dell'account, riprova"
-        prompt_message = MessageFactory.text(
-            message_text, message_text, InputHints.expecting_input
-        )
+            message_text = "Errore nella creazione dell'account, riprova con un email diversa."
+        prompt_message = MessageFactory.text(message_text, message_text, InputHints.expecting_input)
         #returning the results at the users
-        await step_context.prompt(
-            TextPrompt.__name__, PromptOptions(prompt=prompt_message)
-        )
+        await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
         #call the final_step to end this convesation and call MainDialog.final_step. At this point the conversation is restarted
         return await step_context.end_dialog(account_info)
