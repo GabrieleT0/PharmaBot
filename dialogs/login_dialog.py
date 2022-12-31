@@ -89,7 +89,7 @@ class LoginDialog(ComponentDialog):
             session_account.email = account_info.email
             session_account.firstName = account_info.firstName
             session_account.lastName = account_info.lastName
-            session_account.medicine = account_info.medicine            
+            session_account.medicine = account_info.get_medicine()          
             message = f'Benvenuto {session_account.firstName}'
             prompt_message = MessageFactory.text(
                     message, message, InputHints.expecting_input

@@ -36,3 +36,30 @@ def get_hashed_pwd(password):
 def check_pwd(password,pwd_hash):
     password = password.encode('utf-8')
     return bcrypt.checkpw(password,pwd_hash)
+
+def medicine_parser(medicine_account):
+    if isinstance(medicine_account,list):
+                if len(medicine_account) > 0:
+                    medicineLi = []
+                    for medicine in medicine_account:
+                        name = medicine['name']
+                        type = medicine['type']
+                        grams = medicine['grams']
+                        expiration_date = medicine['expirationDate']
+                        if type is None:
+                            type = ''
+                        if grams is None:
+                            grams = ''
+                        medicine_str = f"{name} {type} {grams} Data scadenza: {expiration_date}"
+                        medicineLi.append(medicine_str.strip())
+                    return medicineLi
+                else:
+                    return False
+    else:
+        return False
+
+def printMedicineLi(medicineLi):
+    medicine_str = ''
+    for medicine in medicineLi:
+        medicine_str += medicine.capitalize() + '\n\n'
+    return medicine_str

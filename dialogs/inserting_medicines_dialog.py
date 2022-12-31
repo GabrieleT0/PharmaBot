@@ -122,6 +122,7 @@ class InsertingMedicinesDialog(ComponentDialog):
         if result == True:
             message_text = f"Inserimento della medicina eseguito con successo. Ecco l'elenco aggiornato delle tue medicine:\n\n"
             user_info = db_interface.login(session_account.email)
+            session_account.medicine = user_info.get_medicine()
             medicineLi = user_info.get_medicine()
             medicine_str = ''
             for medicine in medicineLi:
@@ -134,4 +135,4 @@ class InsertingMedicinesDialog(ComponentDialog):
         
         await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
         
-        return await step_context.end_dialog(medicine_info)
+        return await step_context.end_dialog(medicine_info) 

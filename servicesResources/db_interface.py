@@ -63,9 +63,32 @@ def login(email):
     return user
 
 def delete_medicine(medicine_name,email):
-    with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("DELETE FROM dbo.medicine WHERE [medicineName] = ? AND [email] = ?",medicine_name,email)
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("DELETE FROM dbo.medicine WHERE [medicineName] = ? AND [email] = ?",medicine_name,email)
+                return True
+    except:
+        return False
+
+def check_medicine(medicine_name,email):
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT * FROM dbo.medicine WHERE [medicineName] = ? AND [email] = ?",medicine_name,email)
+                rows = cursor.fetchall()
+                medicineLi = []
+                for row in rows:
+                    medicine = {}
+                    medicine['name'] = row[0]
+                    medicine['type'] = row[1]
+                    medicine['grams'] = row[2]
+                    medicine['expirationDate'] = row[3]
+                    medicineLi.append(medicine)
+                return medicineLi
+    except:
+        return False
+
 
 def get_all_medicine(email):
     with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
