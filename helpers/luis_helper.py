@@ -13,6 +13,7 @@ class Intent(Enum):
     REGISTRATION = 'registrazione'
     INSERT_MEDICINE = 'inserisciMedicine'
     DELETE_MEDICINE = 'eliminaFarmaco'
+    UPDATE_MEDICINE = 'modificaMedicine'
     LOGIN = 'login'
     CANCEL = "Cancel"
     MEDICINE_LIST = 'visualizzaMedicine'
@@ -122,6 +123,9 @@ class LuisHelper:
                     result.type = medicine_type[0]['text']
                 if len(medicine_grams) >0:
                     result.grams = medicine_grams[0]['text']
+            
+            if intent == Intent.UPDATE_MEDICINE.value:
+                result = MedicineDetails()
                 
 
 

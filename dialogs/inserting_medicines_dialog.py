@@ -127,6 +127,7 @@ class InsertingMedicinesDialog(ComponentDialog):
             medicine_str = ''
             for medicine in medicineLi:
                 medicine_str += medicine.capitalize() + '\n\n'
+            session_account.medicine = medicine_str
             message_text += medicine_str
         else:
             message_text = "Errore nell'inserimento del medicinale, riprova."

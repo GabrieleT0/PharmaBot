@@ -17,11 +17,12 @@ class UserInfo:
                     name = medicine['name']
                     type = medicine['type']
                     grams = medicine['grams']
+                    expirationDate = medicine['expirationDate']
                     if type is None:
                         type = ''
                     if grams is None:
                         grams = ''
-                    medicine_str = f"{name} {type} {grams}"
+                    medicine_str = f"{name} {type} {grams} Data scadenza: {expirationDate}"
                     medicineLi.append(medicine_str.strip())
                 return medicineLi
             else:

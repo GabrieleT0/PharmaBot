@@ -39,10 +39,7 @@ class DeleteMedicineDialog(ComponentDialog):
     async def name_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         medicine_info = step_context.options
         session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
-        medicineLi = session_account.medicine
-        medicine_str = ''
-        for medicine in medicineLi:
-            medicine_str += medicine.capitalize() + '\n\n'
+        medicine_str = session_account.medicine
         if medicine_info.name is None:
             medicine_str += '**Inserisci il nome del farmaco da cancellare**'
             prompt_message = MessageFactory.text(
@@ -96,28 +93,29 @@ class DeleteMedicineDialog(ComponentDialog):
         
         session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
         
-        if answer.lower() == 'si' or 'sì':
-            result = db_interface.delete_medicine(medicine_info.name,session_account.email)
-            if result == True:
-                message_text = "**Cancellazione eseguita con successo.** \n\nEcco l'elenco aggiornato delle medicine registrate\n\n"
-                medicineLi = db_interface.get_all_medicine(session_account.email)
-                session_account.medicine = util_func.medicine_parser(medicineLi)
-                message_text += util_func.printMedicineLi(session_account.medicine) 
+        if isinstance(answer,str):
+            if answer.lower() == 'si' or 'sì':
+                result = db_interface.delete_medicine(medicine_info.name,session_account.email)
+                if result == True:
+                    message_text = "**Cancellazione eseguita con successo.** \n\nEcco l'elenco aggiornato delle medicine registrate\n\n"
+                    medicineLi = db_interface.get_all_medicine(session_account.email)
+                    session_account.medicine = util_func.medicine_parser(medicineLi)
+                    message_text += util_func.printMedicineLi(session_account.medicine) 
+                else:
+                    message_text = 'Errore nella cancellazione del farmaco, riprova.'
+                
+                prompt_message = MessageFactory.text(
+                        message_text, message_text, InputHints.ignoring_input
+                    )
+                await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
+                
             else:
-                message_text = 'Errore nella cancellazione del farmaco, riprova.'
-            
-            prompt_message = MessageFactory.text(
-                    message_text, message_text, InputHints.ignoring_input
-                )
-            await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
-            
-        else:
-            message_text = 'Operazione annullata'
-            prompt_message = MessageFactory.text(
-                    message_text, message_text, InputHints.ignoring_input
-                )
-            await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
-            return await step_context.end_dialog(medicine_info) 
+                message_text = 'Operazione annullata'
+                prompt_message = MessageFactory.text(
+                        message_text, message_text, InputHints.ignoring_input
+                    )
+                await step_context.prompt(TextPrompt.__name__, PromptOptions(prompt=prompt_message))
+                return await step_context.end_dialog(medicine_info) 
 
         return await step_context.end_dialog(medicine_info) 
 

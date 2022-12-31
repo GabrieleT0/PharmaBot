@@ -71,6 +71,18 @@ def delete_medicine(medicine_name,email):
     except:
         return False
 
+def update_medicine(medicine_name,field_to_update,new_value,email):
+    try:
+        if field_to_update == 'expirationDate':
+            new_value = datetime.strptime(new_value,'%d/%m/%Y').date()
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(f"UPDATE dbo.medicine SET [{field_to_update}] = ? WHERE [medicineName] = ? AND [email] = ?",new_value,medicine_name,email)
+                return True
+    except Exception as error:
+        print(error)
+
+
 def check_medicine(medicine_name,email):
     try:
         with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
@@ -106,7 +118,10 @@ def get_all_medicine(email):
 
             return medicineLi
 
-
+'''
+r = update_medicine('Tachipirina','medicineGrams','2000gr.','gabrieletuozzo@gmail.com')
+print(r)
+'''
 '''
 insert_medicine('gabrieletuozzo@gmail.com','tachipirina',type='pillola',grams='500gr.',expirationDate='2023-02-01')
 pwd = util_func.get_hashed_pwd('pharrmabotproject2022!')

@@ -55,6 +55,8 @@ def medicine_parser(medicine_account):
                     return medicineLi
                 else:
                     return False
+    elif isinstance(medicine_account,str):
+        return medicine_account
     else:
         return False
 

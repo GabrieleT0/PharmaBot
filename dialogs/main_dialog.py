@@ -17,13 +17,14 @@ from dialogs.registration_dialog import RegistrationDialog
 from dialogs.login_dialog import LoginDialog
 from dialogs.inserting_medicines_dialog import InsertingMedicinesDialog
 from dialogs.delete_medicine_dialog import DeleteMedicineDialog
+from dialogs.update_medicine_dialog import UpdateMedicineDialog
 from user_info import UserInfo
 
 class MainDialog(ComponentDialog):
     def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, 
                     brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog, 
                     registration_dialog:RegistrationDialog,login_dialog:LoginDialog, ins_medicine_dialog: InsertingMedicinesDialog,
-                    delete_medicine_dialog:DeleteMedicineDialog ,user_state:UserState):
+                    delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -36,6 +37,7 @@ class MainDialog(ComponentDialog):
         self._login_dialog_id = login_dialog.id
         self._ins_medicine_id = ins_medicine_dialog.id
         self._delete_medicine_id = delete_medicine_dialog.id
+        self._update_medicine_dialog_id = update_medicine_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
@@ -45,6 +47,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(login_dialog)
         self.add_dialog(ins_medicine_dialog)
         self.add_dialog(delete_medicine_dialog)
+        self.add_dialog(update_medicine_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -116,6 +119,7 @@ class MainDialog(ComponentDialog):
                 alredy_login = (f"Sei gia autenticato come {session_account.email}")
                 alredy_login = MessageFactory.text(alredy_login, alredy_login, InputHints.ignoring_input)
                 await step_context.context.send_activity(alredy_login)
+                return await step_context.next(None)
 
         if intent == Intent.LOGIN.value and luis_result:
             if session_account.email is None:
@@ -124,6 +128,7 @@ class MainDialog(ComponentDialog):
                 alredy_login = (f"Hai già fatto il login come {session_account.firstName} {session_account.lastName}")
                 alredy_login = MessageFactory.text(alredy_login, alredy_login, InputHints.ignoring_input)
                 await step_context.context.send_activity(alredy_login)
+                return await step_context.next(None)
         
         if intent == Intent.INSERT_MEDICINE.value and luis_result:
             if session_account.email is not None:
@@ -132,16 +137,13 @@ class MainDialog(ComponentDialog):
                 no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
                 no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
                 await step_context.context.send_activity(no_logged)
+                return await step_context.next(None)
         
         if intent == Intent.MEDICINE_LIST.value and luis_result:
             medicineList = True
             if session_account.email is not None:
                 message_text = 'Ecco le medicine salvate nel tuo account: \n\n'
-                medicineLi = session_account.medicine
-                medicine_str = ''
-                for medicine in medicineLi:
-                    medicine_str += medicine.capitalize() + '\n\n'
-                message_text += medicine_str
+                message_text += session_account.medicine
                 message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
                 await step_context.context.send_activity(message_text)
                 return await step_context.next(None)
@@ -158,6 +160,16 @@ class MainDialog(ComponentDialog):
                 no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
                 no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
                 await step_context.context.send_activity(no_logged)
+                return await step_context.next(None)
+        
+        if intent == Intent.UPDATE_MEDICINE.value and luis_result:
+            if session_account.email is not None:
+                return await step_context.begin_dialog(self._update_medicine_dialog_id,luis_result)
+            else:
+                no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
+                no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
+                await step_context.context.send_activity(no_logged)
+                return await step_context.next(None)
 
         else:
             didnt_understand_text = (
