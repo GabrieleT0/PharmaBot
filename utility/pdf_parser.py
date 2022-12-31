@@ -26,3 +26,21 @@ class PdfParser:
         side_effects = util_func.clean_data(raw_side_effects)
         
         return side_effects
+    
+    def get_what_is_name(self):
+        self.pdf_data = self.pdf_data.replace('informazioni.','informazioni')
+        self.pdf_data = self.pdf_data.replace('10','00')
+        raw_medicine_name = re.findall(r'^.*\b(?i)1.\b.*$',self.pdf_data,re.M)[0]
+        print(raw_medicine_name)
+        raw_what_is = re.findall(f"(?i){raw_medicine_name}(.*?)\.\n[\d]\.",self.pdf_data,re.DOTALL)[0] 
+        print(raw_what_is)
+        try:
+            what_is = raw_what_is.split(raw_medicine_name)[1]
+        except:
+            what_is = raw_what_is.split('cosa serve')[1]
+        what_is = util_func.clean_data(what_is)
+
+        return what_is
+        
+
+    

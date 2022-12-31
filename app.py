@@ -27,6 +27,7 @@ from dialogs.login_dialog import LoginDialog
 from dialogs.inserting_medicines_dialog import InsertingMedicinesDialog
 from dialogs.delete_medicine_dialog import DeleteMedicineDialog
 from dialogs.update_medicine_dialog import UpdateMedicineDialog
+from dialogs.what_is_dialog import WhatIsDialog
 
 CONFIG = DefaultConfig()
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
@@ -36,6 +37,7 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 RECOGNIZER = PharmaBotRecognizer(CONFIG)
 SIDE_EFFECTS_DIALOG = SideEffectsDialog()
+WHAT_IS_DIALOG = WhatIsDialog()
 BROCHURE_DIALOG = BrochureDialog()
 NEARBY_PHARMACY_DIALOG = NearbyPharmaciesDialog()
 REGISTRATION_DIALOG = RegistrationDialog(USER_STATE)
@@ -43,7 +45,7 @@ LOGIN_DIALOG = LoginDialog(USER_STATE)
 INSERT_MEDICINE_DIALOG = InsertingMedicinesDialog(USER_STATE)
 DELETE_MEDICINE_DIALOG = DeleteMedicineDialog(USER_STATE)
 UPDATE_MEDICINE_DIALOG = UpdateMedicineDialog(USER_STATE)
-DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,INSERT_MEDICINE_DIALOG,DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,USER_STATE)
+DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,INSERT_MEDICINE_DIALOG,DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,WHAT_IS_DIALOG,USER_STATE)
 
 BOT = PharmaBot(CONVERSATION_STATE,USER_STATE,DIALOG)
 
