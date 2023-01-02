@@ -20,6 +20,7 @@ from dialogs.delete_medicine_dialog import DeleteMedicineDialog
 from dialogs.update_medicine_dialog import UpdateMedicineDialog
 from dialogs.what_is_dialog import WhatIsDialog
 from dialogs.how_take_dialog import HowTakeDialog
+from dialogs.before_take import BeforeTake
 from user_info import UserInfo
 
 class MainDialog(ComponentDialog):
@@ -27,7 +28,7 @@ class MainDialog(ComponentDialog):
                     brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog, 
                     registration_dialog:RegistrationDialog,login_dialog:LoginDialog, ins_medicine_dialog: InsertingMedicinesDialog,
                     delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, 
-                    what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,user_state:UserState):
+                    what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -43,6 +44,7 @@ class MainDialog(ComponentDialog):
         self._update_medicine_dialog_id = update_medicine_dialog.id
         self._what_is_dialog_id = what_is_dialog.id
         self._how_take_dialog_id = how_take_dialog.id
+        self._before_take_dialog_id = before_take_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
@@ -55,6 +57,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(update_medicine_dialog)
         self.add_dialog(what_is_dialog)
         self.add_dialog(how_take_dialog)
+        self.add_dialog(before_take_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -183,6 +186,9 @@ class MainDialog(ComponentDialog):
         
         if intent == Intent.HOW_TAKE.value and luis_result:
             return await step_context.begin_dialog(self._how_take_dialog_id,luis_result)
+        
+        if intent == Intent.BEFORE_TAKE.value and luis_result:
+            return await step_context.begin_dialog(self._before_take_dialog_id,luis_result)
 
         else:
             didnt_understand_text = (

@@ -47,9 +47,9 @@ class PdfParser:
         
         return how_take
 
-
-
-
+    def before_take(self):
+        before_take = re.findall('(?i)[\d]\.\s*Cosa deve sapere prima di prendere(.*?)(\.\n|\n)[\d]\.',self.pdf_data,re.DOTALL)[1]
+        before_take = util_func.clean_data(before_take[0])
         
-
+        return before_take
     
