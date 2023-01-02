@@ -53,3 +53,10 @@ class PdfParser:
         
         return before_take
     
+    def get_preservation(self):
+        preservation = util_func.clean_header(self.pdf_data)
+        preservation = re.findall('(?i)[\d]\.\s*Come conservare(.*?)(\.\n|\n)[\d]\.',preservation,re.DOTALL)[1]
+        preservation = util_func.clean_data(preservation[0])
+        
+        return preservation
+    

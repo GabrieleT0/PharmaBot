@@ -26,6 +26,12 @@ def clean_data(pdf_data):
 
     return pdf_data
 
+def clean_header(pdf_data):
+    pdf_data = re.sub(r"Documento reso disponibile da AIFA il \d{2}\/\d{2}\/\d{4}(.*?)\)\.","",pdf_data,flags=re.DOTALL)
+
+    return pdf_data
+
+
 def get_hashed_pwd(password):
     byte_pwd = password.encode('utf-8')
     salt = bcrypt.gensalt()

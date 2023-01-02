@@ -20,6 +20,7 @@ class Intent(Enum):
     WHAT_IS = 'whatIs'
     HOW_TAKE = 'comePrendere'
     BEFORE_TAKE = 'precauzioni'
+    PRESERVATION = 'conservazione'
     GET_WEATHER = "GetWeather"
     NONE_INTENT = "NoneIntent"
 
@@ -165,6 +166,19 @@ class LuisHelper:
                     result.type = medicine_type[0]['text']
                 if len(medicine_grams) >0:
                     result.grams = medicine_grams[0]['text']
+            
+            if intent == Intent.PRESERVATION.value:
+                result = MedicineDetails()
+                medicine_name = recognizer_result.entities.get("$instance",{}).get("farmaco",[])
+                medicine_type = recognizer_result.entities.get("$instance",{}).get("tipo",[])
+                medicine_grams = recognizer_result.entities.get("$instance",{}).get("grammi",[])
+                if len(medicine_name) > 0:
+                    result.name = medicine_name[0]['text']
+                if len(medicine_type) > 0:
+                    result.type = medicine_type[0]['text']
+                if len(medicine_grams) >0:
+                    result.grams = medicine_grams[0]['text']
+
     
         except Exception as exception:
             print(exception)
