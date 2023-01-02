@@ -31,9 +31,7 @@ class PdfParser:
         self.pdf_data = self.pdf_data.replace('informazioni.','informazioni')
         self.pdf_data = self.pdf_data.replace('10','00')
         raw_medicine_name = re.findall(r'^.*\b(?i)1.\b.*$',self.pdf_data,re.M)[0]
-        print(raw_medicine_name)
         raw_what_is = re.findall(f"(?i){raw_medicine_name}(.*?)\.\n[\d]\.",self.pdf_data,re.DOTALL)[0] 
-        print(raw_what_is)
         try:
             what_is = raw_what_is.split(raw_medicine_name)[1]
         except:
@@ -41,6 +39,17 @@ class PdfParser:
         what_is = util_func.clean_data(what_is)
 
         return what_is
+    
+    def get_how_take(self):
+        #raw_side_effects = re.findall('(?i)[\d]\.\s*Come prendere(.*?)\.\n[\d]\.',self.pdf_data,re.DOTALL)[1]
+        raw_how_take = re.findall('(?i)[\d]\.\s*Come prendere(.*?)(\.\n|\n)[\d]\.',self.pdf_data,re.DOTALL)[1]
+        how_take = util_func.clean_data(raw_how_take[0])
+        
+        return how_take
+
+
+
+
         
 
     
