@@ -25,8 +25,7 @@ def insert_medicine(email,name,type=None,grams=None,expirationDate=None):
                 cursor.execute("INSERT INTO dbo.medicine([medicineName],[medicineType],[medicineGrams],[expirationDate],[email]) VALUES (?,?,?,?,?)",name,type,grams,expirationDate,email)
                 
                 return True
-    except Exception as e:
-        print(e)
+    except:
         return False
 
 def get_pwd(email):

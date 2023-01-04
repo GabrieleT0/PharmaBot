@@ -88,7 +88,6 @@ class DeleteAccountDialog(ComponentDialog):
         answer = step_context.result
         
         session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
-        print(session_account.email)
         if isinstance(answer,str):
             if answer == 'Si':
                 result = db_interface.delete_account(session_account.email)
