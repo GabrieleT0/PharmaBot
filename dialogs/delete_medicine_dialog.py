@@ -40,15 +40,21 @@ class DeleteMedicineDialog(ComponentDialog):
         medicine_info = step_context.options
         session_account = await self.user_profile_accessor.get(step_context.context,UserInfo)
         medicine_str = session_account.medicine
-        if medicine_info.name is None:
-            medicine_str += '**Inserisci il nome del farmaco da cancellare**'
-            prompt_message = MessageFactory.text(
-                medicine_str, medicine_str, InputHints.expecting_input
-            )
-            return await step_context.prompt(
-                TextPrompt.__name__, PromptOptions(prompt=prompt_message)
-            )
-        return await step_context.next(medicine_info.name)
+        if medicine_str is not None:
+            if medicine_info.name is None:
+                medicine_str += '**Inserisci il nome del farmaco da cancellare**'
+                prompt_message = MessageFactory.text(
+                    medicine_str, medicine_str, InputHints.expecting_input
+                )
+                return await step_context.prompt(
+                    TextPrompt.__name__, PromptOptions(prompt=prompt_message)
+                )
+            return await step_context.next(medicine_info.name)
+        else:
+            message_text = 'Non hai ancora registrato alcun farmaco'
+            message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+            await step_context.context.send_activity(message_text)
+            return await step_context.end_dialog(medicine_info)
     
     async def confirmation_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         medicine_info = step_context._options

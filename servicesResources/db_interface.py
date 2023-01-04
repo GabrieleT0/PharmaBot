@@ -25,8 +25,8 @@ def insert_medicine(email,name,type=None,grams=None,expirationDate=None):
                 cursor.execute("INSERT INTO dbo.medicine([medicineName],[medicineType],[medicineGrams],[expirationDate],[email]) VALUES (?,?,?,?,?)",name,type,grams,expirationDate,email)
                 
                 return True
-    except:
-
+    except Exception as e:
+        print(e)
         return False
 
 def get_pwd(email):
@@ -150,6 +150,16 @@ def delete_reminder(id_reminder):
                 cursor.execute("DELETE FROM dbo.reminders WHERE [ID] = ?",id_reminder)
                 return True
     except:
+        return False
+
+def delete_account(email):
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("DELETE FROM dbo.medicine WHERE [email] = ?",email)
+                cursor.execute("DELETE FROM dbo.users WHERE [email] = ?",email)
+                return True
+    except Exception as e:
         return False
 
 '''

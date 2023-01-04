@@ -68,6 +68,9 @@ def medicine_parser(medicine_account):
 
 def printMedicineLi(medicineLi):
     medicine_str = ''
-    for medicine in medicineLi:
-        medicine_str += medicine.capitalize() + '\n\n'
-    return medicine_str
+    if isinstance(medicineLi,list):
+        for medicine in medicineLi:
+            medicine_str += medicine.capitalize() + '\n\n'
+        return medicine_str
+    else:
+        return None

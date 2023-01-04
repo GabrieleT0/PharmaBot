@@ -27,6 +27,7 @@ class Intent(Enum):
     SHOW_REMINDER = 'visPromem'
     NONE_INTENT = "NoneIntent"
     REMINDER = 'reminder'
+    DEL_ACCOUNT = 'eliminaAccount'
 
 def top_intent(intents: Dict[Intent, dict]) -> TopIntent:
     max_intent = Intent.NONE_INTENT
@@ -197,6 +198,9 @@ class LuisHelper:
             
             if intent == Intent.SHOW_REMINDER.value:
                 result = ReminderInfo()
+            
+            if intent == Intent.DEL_ACCOUNT.value:
+                result = UserInfo()
 
     
         except Exception as exception:

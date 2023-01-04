@@ -41,16 +41,22 @@ class UpdateMedicineDialog(ComponentDialog):
 
         message_text = "Ecco l'elenco delle medicine che hai registrato\n\n"
         medicineLi = session_account.medicine
-        message_text += medicineLi
-        if medicine_info.name is None:
-            message_text += '**Inserisci il nome della medicina che vuoi modificare.**'
-            prompt_message = MessageFactory.text(
-                message_text, message_text, InputHints.expecting_input
-            )
-            return await step_context.prompt(
-                TextPrompt.__name__, PromptOptions(prompt=prompt_message)
-            )
-        return await step_context.next(medicine_info.name)
+        if medicineLi is not None:
+            message_text += medicineLi
+            if medicine_info.name is None:
+                message_text += '**Inserisci il nome della medicina che vuoi modificare.**'
+                prompt_message = MessageFactory.text(
+                    message_text, message_text, InputHints.expecting_input
+                )
+                return await step_context.prompt(
+                    TextPrompt.__name__, PromptOptions(prompt=prompt_message)
+                )
+            return await step_context.next(medicine_info.name)
+        else:
+            message_text = 'Non hai ancora registrato alcun farmaco'
+            message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+            await step_context.context.send_activity(message_text)
+            return await step_context.end_dialog(medicine_info)
     
     async def field_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         medicine_info = step_context.options

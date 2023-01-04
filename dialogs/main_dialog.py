@@ -25,6 +25,7 @@ from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
 from dialogs.reminder_dialog import ReminderDialog
 from dialogs.remove_reminder_dialog import RemoveReminderDialog
+from dialogs.delete_account_dialog import DeleteAccountDialog
 from user_info import UserInfo
 from PharmaBot.servicesResources import db_interface
 
@@ -34,7 +35,8 @@ class MainDialog(ComponentDialog):
                     registration_dialog:RegistrationDialog,login_dialog:LoginDialog, ins_medicine_dialog: InsertingMedicinesDialog,
                     delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, 
                     what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,
-                    preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,remove_reminder_dialog:RemoveReminderDialog,user_state:UserState):
+                    preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,remove_reminder_dialog:RemoveReminderDialog,
+                    delete_account_dialog:DeleteAccountDialog,user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -54,6 +56,7 @@ class MainDialog(ComponentDialog):
         self._preservation_dialog_id = preservation_dialog.id
         self._reminder_dialog_id = reminder_dialog.id
         self._remove_reminder_dialog_id = remove_reminder_dialog.id
+        self._delete_account_dialog_id = delete_account_dialog.id
 
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
@@ -71,6 +74,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(preservation_dialog)
         self.add_dialog(reminder_dialog)
         self.add_dialog(remove_reminder_dialog)
+        self.add_dialog(delete_account_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -165,11 +169,18 @@ class MainDialog(ComponentDialog):
         if intent == Intent.MEDICINE_LIST.value and luis_result:
             medicineList = True
             if session_account.email is not None:
-                message_text = 'Ecco le medicine salvate nel tuo account: \n\n'
-                message_text += session_account.medicine
-                message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
-                await step_context.context.send_activity(message_text)
-                return await step_context.next(None)
+                if session_account.medicine is not None:
+                    message_text = 'Ecco le medicine salvate nel tuo account: \n\n'
+                    message_text += session_account.medicine
+                    message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+                    await step_context.context.send_activity(message_text)
+                    return await step_context.next(None)
+                else:
+                    message_text = 'Non hai ancora registrato alcun farmaco'
+                    message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+                    await step_context.context.send_activity(message_text)
+                    return await step_context.next(None)
+
             else:
                 no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
                 no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
@@ -227,7 +238,15 @@ class MainDialog(ComponentDialog):
                 no_reminder = MessageFactory.text(no_reminder, no_reminder, InputHints.ignoring_input)
                 await step_context.context.send_activity(no_reminder)
                 return await step_context.next(None)
-
+        
+        if intent == Intent.DEL_ACCOUNT.value and luis_result:
+            if session_account.email is not None:
+                return await step_context.begin_dialog(self._delete_account_dialog_id,luis_result)
+            else:
+                no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
+                no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
+                await step_context.context.send_activity(no_logged)
+                return await step_context.next(None)
 
         else:
             didnt_understand_text = (
