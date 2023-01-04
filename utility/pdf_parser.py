@@ -22,7 +22,8 @@ class PdfParser:
     By using a regex, filter the text in the pdf to extract only the medicine side effects.
     '''
     def get_side_effects(self):
-        raw_side_effects = re.findall('(?i)[\d]\.\s*possibili effetti indesiderati(.*?)\.\n[\d]\.',self.pdf_data,re.DOTALL)[1]
+        raw_side_effects = util_func.clean_header(self.pdf_data)
+        raw_side_effects = re.findall('(?i)[\d]\.\s*possibili effetti indesiderati(.*?)\.\n[\d]\.',raw_side_effects,re.DOTALL)[1]
         side_effects = util_func.clean_data(raw_side_effects)
         
         return side_effects
@@ -41,14 +42,15 @@ class PdfParser:
         return what_is
     
     def get_how_take(self):
-        #raw_side_effects = re.findall('(?i)[\d]\.\s*Come prendere(.*?)\.\n[\d]\.',self.pdf_data,re.DOTALL)[1]
-        raw_how_take = re.findall('(?i)[\d]\.\s*Come prendere(.*?)(\.\n|\n)[\d]\.',self.pdf_data,re.DOTALL)[1]
+        raw_how_take = util_func.clean_header(self.pdf_data)
+        raw_how_take = re.findall('(?i)[\d]\.\s*Come prendere(.*?)(\.\n|\n)[\d]\.',raw_how_take,re.DOTALL)[1]
         how_take = util_func.clean_data(raw_how_take[0])
         
         return how_take
 
     def before_take(self):
-        before_take = re.findall('(?i)[\d]\.\s*Cosa deve sapere prima di prendere(.*?)(\.\n|\n)[\d]\.',self.pdf_data,re.DOTALL)[1]
+        before_take = util_func.clean_header(self.pdf_data)
+        before_take = re.findall('(?i)[\d]\.\s*Cosa deve sapere prima di prendere(.*?)(\.\n|\n)[\d]\.',before_take,re.DOTALL)[1]
         before_take = util_func.clean_data(before_take[0])
         
         return before_take

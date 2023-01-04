@@ -32,8 +32,6 @@ class ReminderDialog(ComponentDialog):
     def __init__(self,conversation_references: Dict[str, ConversationReference],dialog_id: str = None):
         super(ReminderDialog,self).__init__(dialog_id or ReminderDialog.__name__)
 
-        
-
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(
             WaterfallDialog(

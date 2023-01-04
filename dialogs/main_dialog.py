@@ -1,3 +1,4 @@
+from typing import Dict
 from botbuilder.dialogs import (
     ComponentDialog,
     WaterfallDialog,
@@ -6,7 +7,7 @@ from botbuilder.dialogs import (
 )
 from botbuilder.dialogs.prompts import TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory, TurnContext, UserState
-from botbuilder.schema import InputHints
+from botbuilder.schema import InputHints,ConversationReference
 from helpers.luis_helper import LuisHelper, Intent
 from cognitiveModels.pharmaBotRecognizer import PharmaBotRecognizer
 from dialogs.side_effects_dialog import SideEffectsDialog
@@ -23,7 +24,9 @@ from dialogs.how_take_dialog import HowTakeDialog
 from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
 from dialogs.reminder_dialog import ReminderDialog
+from dialogs.remove_reminder_dialog import RemoveReminderDialog
 from user_info import UserInfo
+from PharmaBot.servicesResources import db_interface
 
 class MainDialog(ComponentDialog):
     def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, 
@@ -31,7 +34,7 @@ class MainDialog(ComponentDialog):
                     registration_dialog:RegistrationDialog,login_dialog:LoginDialog, ins_medicine_dialog: InsertingMedicinesDialog,
                     delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, 
                     what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,
-                    preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,user_state:UserState):
+                    preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,remove_reminder_dialog:RemoveReminderDialog,user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -50,6 +53,8 @@ class MainDialog(ComponentDialog):
         self._before_take_dialog_id = before_take_dialog.id
         self._preservation_dialog_id = preservation_dialog.id
         self._reminder_dialog_id = reminder_dialog.id
+        self._remove_reminder_dialog_id = remove_reminder_dialog.id
+
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
@@ -65,6 +70,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(before_take_dialog)
         self.add_dialog(preservation_dialog)
         self.add_dialog(reminder_dialog)
+        self.add_dialog(remove_reminder_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -202,6 +208,26 @@ class MainDialog(ComponentDialog):
         
         if intent == Intent.REMINDER.value and luis_result:
             return await step_context.begin_dialog(self._reminder_dialog_id,luis_result)
+        
+        if intent == Intent.DELETE_REMINDER.value and luis_result:
+            return await step_context.begin_dialog(self._remove_reminder_dialog_id,luis_result)
+        
+        if intent == Intent.SHOW_REMINDER.value and luis_result:
+            conversation_references = TurnContext.get_conversation_reference(step_context.context.activity)
+            reminders = db_interface.get_str_reminder(conversation_references.user.id)
+            if len(reminders) > 0:
+                message_text = 'Ecco i promemoria che hai inserito nel tuo account: \n\n'
+                for reminder in reminders:
+                    message_text += reminder[0] + '\n\n'
+                message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+                await step_context.context.send_activity(message_text)
+                return await step_context.next(None)
+            else:
+                no_reminder = (f"Non hai registrato ancora nessun promemoria.")
+                no_reminder = MessageFactory.text(no_reminder, no_reminder, InputHints.ignoring_input)
+                await step_context.context.send_activity(no_reminder)
+                return await step_context.next(None)
+
 
         else:
             didnt_understand_text = (

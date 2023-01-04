@@ -133,13 +133,22 @@ def get_str_reminder(conversation_id):
     try:
         with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT reminderText FROM dbo.reminders WHERE [conversationID] = ?",conversation_id)
+                cursor.execute("SELECT reminderText,ID FROM dbo.reminders WHERE [conversationID] = ?",conversation_id)
                 rows = cursor.fetchall()
                 messages = []
                 for row in rows:
-                    messages.append(row[0])
+                    messages.append((row[0],row[1]))
                 
                 return messages
+    except:
+        return False
+
+def delete_reminder(id_reminder):
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("DELETE FROM dbo.reminders WHERE [ID] = ?",id_reminder)
+                return True
     except:
         return False
 
@@ -159,5 +168,7 @@ delete_medicine('tachipirina','gabrieletuozzo@gmail.com')
 # print(util_func.check_pwd(pwd_data,pwd.encode('utf-8')))
 '''
 
-
-get_str_reminder('632fdc28-b260-4313-b2f5-d630ed9eab8f')
+''''
+r = get_str_reminder('632fdc28-b260-4313-b2f5-d630ed9eab8f')
+print(r)
+'''

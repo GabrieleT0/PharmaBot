@@ -34,6 +34,7 @@ from dialogs.how_take_dialog import HowTakeDialog
 from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
 from dialogs.reminder_dialog import ReminderDialog
+from dialogs.remove_reminder_dialog import RemoveReminderDialog
 from PharmaBot.servicesResources import db_interface
 
 CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
@@ -57,9 +58,10 @@ INSERT_MEDICINE_DIALOG = InsertingMedicinesDialog(USER_STATE)
 DELETE_MEDICINE_DIALOG = DeleteMedicineDialog(USER_STATE)
 UPDATE_MEDICINE_DIALOG = UpdateMedicineDialog(USER_STATE)
 REMINDER_DIALOG = ReminderDialog(CONVERSATION_REFERENCES)
+REMOVE_REMINDER_DIALOG = RemoveReminderDialog(CONVERSATION_REFERENCES)
 
 DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,INSERT_MEDICINE_DIALOG,
-DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,WHAT_IS_DIALOG,HOW_TAKE_DIALOG,BEFORE_TAKE,PRESERVATION_DIALOG,REMINDER_DIALOG,USER_STATE)
+            DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,WHAT_IS_DIALOG,HOW_TAKE_DIALOG,BEFORE_TAKE,PRESERVATION_DIALOG,REMINDER_DIALOG,REMOVE_REMINDER_DIALOG,USER_STATE)
 
 APP_ID = SETTINGS.app_id if SETTINGS.app_id else uuid.uuid4()
 
@@ -111,7 +113,7 @@ async def _send_proactive_message():
         for reminder in reminders:
             await ADAPTER.continue_conversation(
                 conversation_reference,
-                lambda turn_context: turn_context.send_activity(reminder),
+                lambda turn_context: turn_context.send_activity(reminder[0]),
                 APP_ID,
             )
 

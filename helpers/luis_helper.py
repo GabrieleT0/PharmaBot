@@ -23,6 +23,8 @@ class Intent(Enum):
     BEFORE_TAKE = 'precauzioni'
     PRESERVATION = 'conservazione'
     GET_WEATHER = "GetWeather"
+    DELETE_REMINDER = 'eliminaPromemoria'
+    SHOW_REMINDER = 'visPromem'
     NONE_INTENT = "NoneIntent"
     REMINDER = 'reminder'
 
@@ -189,6 +191,12 @@ class LuisHelper:
                     result.medicine_name = medicine_name[0]['text']
                 if len(time) > 0:
                     result.time = time[0]['text']
+            
+            if intent == Intent.DELETE_REMINDER.value:
+                result = ReminderInfo()
+            
+            if intent == Intent.SHOW_REMINDER.value:
+                result = ReminderInfo()
 
     
         except Exception as exception:
