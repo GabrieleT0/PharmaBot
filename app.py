@@ -2,6 +2,7 @@ import sys
 import traceback
 from datetime import datetime
 from http import HTTPStatus
+import uuid
 
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
@@ -13,8 +14,9 @@ from botbuilder.core import (
     ConversationState,
     UserState,
 )
+from typing import Dict
 from botbuilder.core.integration import aiohttp_error_middleware
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity, ActivityTypes, ConversationReference
 from cognitiveModels.pharmaBotRecognizer import PharmaBotRecognizer
 from bots import PharmaBot
 from config import DefaultConfig
@@ -31,7 +33,10 @@ from dialogs.what_is_dialog import WhatIsDialog
 from dialogs.how_take_dialog import HowTakeDialog
 from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
+from dialogs.reminder_dialog import ReminderDialog
+from PharmaBot.servicesResources import db_interface
 
+CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
 CONFIG = DefaultConfig()
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 MEMORY = MemoryStorage()
@@ -51,11 +56,16 @@ LOGIN_DIALOG = LoginDialog(USER_STATE)
 INSERT_MEDICINE_DIALOG = InsertingMedicinesDialog(USER_STATE)
 DELETE_MEDICINE_DIALOG = DeleteMedicineDialog(USER_STATE)
 UPDATE_MEDICINE_DIALOG = UpdateMedicineDialog(USER_STATE)
+REMINDER_DIALOG = ReminderDialog(CONVERSATION_REFERENCES)
 
 DIALOG = MainDialog(RECOGNIZER,SIDE_EFFECTS_DIALOG,BROCHURE_DIALOG,NEARBY_PHARMACY_DIALOG,REGISTRATION_DIALOG,LOGIN_DIALOG,INSERT_MEDICINE_DIALOG,
-DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,WHAT_IS_DIALOG,HOW_TAKE_DIALOG,BEFORE_TAKE,PRESERVATION_DIALOG,USER_STATE)
+DELETE_MEDICINE_DIALOG,UPDATE_MEDICINE_DIALOG,WHAT_IS_DIALOG,HOW_TAKE_DIALOG,BEFORE_TAKE,PRESERVATION_DIALOG,REMINDER_DIALOG,USER_STATE)
 
-BOT = PharmaBot(CONVERSATION_STATE,USER_STATE,DIALOG)
+APP_ID = SETTINGS.app_id if SETTINGS.app_id else uuid.uuid4()
+
+
+BOT = PharmaBot(CONVERSATION_REFERENCES,CONVERSATION_STATE,USER_STATE,DIALOG)
+
 
 # Catch-all for errors.
 async def on_error(context: TurnContext, error: Exception):
@@ -73,8 +83,6 @@ async def on_error(context: TurnContext, error: Exception):
 
 ADAPTER.on_turn_error = on_error
 
-BOT = PharmaBot(CONVERSATION_STATE, USER_STATE, DIALOG)
-
 async def messages(req: Request) -> Response:
     # Main bot message handler.
     if "application/json" in req.headers["Content-Type"]:
@@ -90,8 +98,26 @@ async def messages(req: Request) -> Response:
         return json_response(data=response.body, status=response.status)
     return Response(status=HTTPStatus.OK)
 
+# Listen for requests on /api/notify, and send a messages to all conversation members.
+async def notify(req: Request) -> Response:  # pylint: disable=unused-argument
+    await _send_proactive_message()
+    return Response(status=HTTPStatus.OK, text="Proactive messages have been sent")
+
+# Send a message to all conversation members.
+# This uses the shared Dictionary that the Bot adds conversation references to.
+async def _send_proactive_message():
+    for conversation_reference in CONVERSATION_REFERENCES.values():
+        reminders = db_interface.get_str_reminder(conversation_reference.user.id)
+        for reminder in reminders:
+            await ADAPTER.continue_conversation(
+                conversation_reference,
+                lambda turn_context: turn_context.send_activity(reminder),
+                APP_ID,
+            )
+
 APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
+APP.router.add_get("/api/notify", notify)
 
 if __name__ == "__main__":
     try:

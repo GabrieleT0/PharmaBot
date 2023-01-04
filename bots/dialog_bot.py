@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+from typing import Dict
 from botbuilder.core import ActivityHandler, ConversationState, UserState, TurnContext
 from botbuilder.dialogs import Dialog
 from helpers.dialog_helper import DialogHelper
@@ -15,7 +16,8 @@ from botbuilder.schema import (
     AttachmentData,
     Activity,
     ActionTypes,
-    SuggestedActions
+    SuggestedActions,
+    ConversationReference
 )
 from PharmaBot.servicesResources.computer_vision import ComputerVision
 from PharmaBot.servicesResources.info_medicine import InfoMedicine
@@ -26,6 +28,7 @@ from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 class DialogBot(ActivityHandler):
     def __init__(
         self,
+        conversation_references: Dict[str, ConversationReference],
         conversation_state: ConversationState,
         user_state: UserState,
         dialog: Dialog,
@@ -39,6 +42,7 @@ class DialogBot(ActivityHandler):
         if dialog is None:
             raise Exception("[DialogBot]: Missing parameter. dialog is required")
 
+        self.conversation_references = conversation_references
         self.conversation_state = conversation_state
         self.user_state = user_state
         self.dialog = dialog
@@ -109,3 +113,20 @@ class DialogBot(ActivityHandler):
         )
         '''
         #return await turn_context.send_activity(reply)
+'''
+    async def on_conversation_update_activity(self, turn_context: TurnContext):
+        self._add_conversation_reference(turn_context.activity)
+        return await super().on_conversation_update_activity(turn_context)
+
+    def _add_conversation_reference(self, activity: Activity):
+        """
+        This populates the shared Dictionary that holds conversation references. In this sample,
+        this dictionary is used to send a message to members when /api/notify is hit.
+        :param activity:
+        :return:
+        """
+        conversation_reference = TurnContext.get_conversation_reference(activity)
+        self.conversation_references[
+            conversation_reference.user.id
+        ] = conversation_reference
+'''

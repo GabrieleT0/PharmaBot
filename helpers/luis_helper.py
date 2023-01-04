@@ -5,6 +5,7 @@ from botbuilder.core import IntentScore, TopIntent, TurnContext
 from medicine_details import MedicineDetails
 from location_info import LocationInfo
 from user_info import UserInfo
+from reminder_info import ReminderInfo
 
 class Intent(Enum):
     SIDE_EFFECTS = "effettiIndesiderati"
@@ -23,6 +24,7 @@ class Intent(Enum):
     PRESERVATION = 'conservazione'
     GET_WEATHER = "GetWeather"
     NONE_INTENT = "NoneIntent"
+    REMINDER = 'reminder'
 
 def top_intent(intents: Dict[Intent, dict]) -> TopIntent:
     max_intent = Intent.NONE_INTENT
@@ -178,6 +180,15 @@ class LuisHelper:
                     result.type = medicine_type[0]['text']
                 if len(medicine_grams) >0:
                     result.grams = medicine_grams[0]['text']
+            
+            if intent == Intent.REMINDER.value:
+                result = ReminderInfo()
+                medicine_name = recognizer_result.entities.get("$instance",{}).get("farmaco",[])
+                time = recognizer_result.entities.get("$instance",{}).get("orario",[])
+                if len(medicine_name) > 0:
+                    result.medicine_name = medicine_name[0]['text']
+                if len(time) > 0:
+                    result.time = time[0]['text']
 
     
         except Exception as exception:

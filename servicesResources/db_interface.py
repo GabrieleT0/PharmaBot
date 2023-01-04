@@ -118,6 +118,31 @@ def get_all_medicine(email):
 
             return medicineLi
 
+def insert_reminder_info(conversation_id,reminder_text):
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("INSERT INTO dbo.reminders([conversationID],[reminderText]) VALUES (?,?)",conversation_id,reminder_text)
+                
+                return True
+    except:
+
+        return False
+
+def get_str_reminder(conversation_id):
+    try:
+        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT reminderText FROM dbo.reminders WHERE [conversationID] = ?",conversation_id)
+                rows = cursor.fetchall()
+                messages = []
+                for row in rows:
+                    messages.append(row[0])
+                
+                return messages
+    except:
+        return False
+
 '''
 r = update_medicine('Tachipirina','medicineGrams','2000gr.','gabrieletuozzo@gmail.com')
 print(r)
@@ -133,3 +158,6 @@ delete_medicine('tachipirina','gabrieletuozzo@gmail.com')
 
 # print(util_func.check_pwd(pwd_data,pwd.encode('utf-8')))
 '''
+
+
+get_str_reminder('632fdc28-b260-4313-b2f5-d630ed9eab8f')

@@ -22,6 +22,7 @@ from dialogs.what_is_dialog import WhatIsDialog
 from dialogs.how_take_dialog import HowTakeDialog
 from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
+from dialogs.reminder_dialog import ReminderDialog
 from user_info import UserInfo
 
 class MainDialog(ComponentDialog):
@@ -29,7 +30,8 @@ class MainDialog(ComponentDialog):
                     brochure_dialog: BrochureDialog, nerby_ph_dialog:NearbyPharmaciesDialog, 
                     registration_dialog:RegistrationDialog,login_dialog:LoginDialog, ins_medicine_dialog: InsertingMedicinesDialog,
                     delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, 
-                    what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,preservation_dialog:PreservationDialog,user_state:UserState):
+                    what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,
+                    preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -47,6 +49,7 @@ class MainDialog(ComponentDialog):
         self._how_take_dialog_id = how_take_dialog.id
         self._before_take_dialog_id = before_take_dialog.id
         self._preservation_dialog_id = preservation_dialog.id
+        self._reminder_dialog_id = reminder_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
@@ -61,6 +64,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(how_take_dialog)
         self.add_dialog(before_take_dialog)
         self.add_dialog(preservation_dialog)
+        self.add_dialog(reminder_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -195,6 +199,9 @@ class MainDialog(ComponentDialog):
         
         if intent == Intent.PRESERVATION.value and luis_result:
             return await step_context.begin_dialog(self._preservation_dialog_id,luis_result)
+        
+        if intent == Intent.REMINDER.value and luis_result:
+            return await step_context.begin_dialog(self._reminder_dialog_id,luis_result)
 
         else:
             didnt_understand_text = (
