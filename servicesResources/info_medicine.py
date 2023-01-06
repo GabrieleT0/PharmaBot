@@ -7,12 +7,13 @@ from PharmaBot.utility.pdf_parser import PdfParser
 from PIL import Image
 from io import BytesIO
 import matplotlib.pyplot as plt
+from config import DefaultConfig
 
 SUBSCRIPTION_KEY = "47e87f10209e4e9faf4edb816d2b7e2d"
 
 class InfoMedicine:
     def __init__(self):
-        self.headers = {"Ocp-Apim-Subscription-Key": SUBSCRIPTION_KEY}
+        self.headers = {"Ocp-Apim-Subscription-Key": DefaultConfig.BING_SEARCH_API_KEY}
         self.search_url = 'https://api.bing.microsoft.com/v7.0/search'
         self.search_url_img = 'https://api.bing.microsoft.com/v7.0/images/search'
 

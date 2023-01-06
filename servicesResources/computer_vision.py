@@ -8,16 +8,13 @@ from msrest.authentication import CognitiveServicesCredentials
 import requests
 from PIL import Image
 import urllib.request
-
-
-SUBSCRIPTION_KEY = "a42297c51c6647a1bfec41a88885c00d"
-ENDPOINT = 'https://gabrecognizer.cognitiveservices.azure.com/'
+from config import DefaultConfig
 
 class ComputerVision:
     def __init__(self):
-        self.subscription_key = SUBSCRIPTION_KEY
-        self.endpoint = ENDPOINT
-        self.computer_vision_client = ComputerVisionClient(ENDPOINT,CognitiveServicesCredentials(SUBSCRIPTION_KEY))
+        self.subscription_key = DefaultConfig.COMPUTER_VISION_KEY
+        self.endpoint = DefaultConfig.COMPUTER_VISION_ENDPOINT
+        self.computer_vision_client = ComputerVisionClient(DefaultConfig.COMPUTER_VISION_ENDPOINT,CognitiveServicesCredentials(DefaultConfig.COMPUTER_VISION_KEY))
 
 
     '''

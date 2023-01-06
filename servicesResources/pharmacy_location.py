@@ -1,12 +1,11 @@
 import json
 import os
 import requests
-
-PRIMARY_KEY = 'UMBo4xFK3pFCO8pQ_cwL-Bsmwu6YHnbhFFC_YAEUPeg'
+from config import DefaultConfig
 
 class PharmacyLocation:
     def __init__(self):
-        self.subscription_key = PRIMARY_KEY
+        self.subscription_key = DefaultConfig.AZURE_MAP
     
     def get_lat_long(self,location,address):
         url = f'https://atlas.microsoft.com/search/address/json?api-version=1.0&query={address} {location}&subscription-key={self.subscription_key}'
