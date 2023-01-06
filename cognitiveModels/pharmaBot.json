@@ -2,7 +2,31 @@
   "luis_schema_version": "7.0.0",
   "intents": [
     {
+      "name": "benvenuto",
+      "features": []
+    },
+    {
+      "name": "comePrendere",
+      "features": []
+    },
+    {
+      "name": "conservazione",
+      "features": []
+    },
+    {
       "name": "effettiIndesiderati",
+      "features": []
+    },
+    {
+      "name": "eliminaAccount",
+      "features": []
+    },
+    {
+      "name": "eliminaFarmaco",
+      "features": []
+    },
+    {
+      "name": "eliminaPromemoria",
       "features": []
     },
     {
@@ -14,11 +38,47 @@
       "features": []
     },
     {
-      "name": "info farmaco",
+      "name": "help",
+      "features": []
+    },
+    {
+      "name": "inserisciMedicine",
+      "features": []
+    },
+    {
+      "name": "login",
+      "features": []
+    },
+    {
+      "name": "modificaMedicine",
       "features": []
     },
     {
       "name": "None",
+      "features": []
+    },
+    {
+      "name": "precauzioni",
+      "features": []
+    },
+    {
+      "name": "registrazione",
+      "features": []
+    },
+    {
+      "name": "reminder",
+      "features": []
+    },
+    {
+      "name": "visPromem",
+      "features": []
+    },
+    {
+      "name": "visualizzaMedicine",
+      "features": []
+    },
+    {
+      "name": "whatIs",
       "features": []
     }
   ],
@@ -66,6 +126,57 @@
   "prebuiltEntities": [],
   "utterances": [
     {
+      "text": "a cosa serve moment",
+      "intent": "whatIs",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 13,
+          "endPos": 18,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "accedi",
+      "intent": "login",
+      "entities": []
+    },
+    {
+      "text": "aiutami",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "aiuto",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "avvertenze per l'assunzione di enterogermina",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 31,
+          "endPos": 43,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "avvertenze tachipirina",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 11,
+          "endPos": 21,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "bugiardino oki granulato 100mg",
       "intent": "foglioIllustrativo",
       "entities": [
@@ -90,9 +201,129 @@
       ]
     },
     {
+      "text": "cancella account",
+      "intent": "eliminaAccount",
+      "entities": []
+    },
+    {
+      "text": "cancella avviso medicina",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "cancella farmaco",
+      "intent": "eliminaFarmaco",
+      "entities": []
+    },
+    {
+      "text": "cancella farmaco assunto",
+      "intent": "eliminaFarmaco",
+      "entities": []
+    },
+    {
+      "text": "cancella notifica",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "cancella promemoria",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
       "text": "cercami una farmacia",
       "intent": "farmacieVicine",
       "entities": []
+    },
+    {
+      "text": "che fai",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "chi sei",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "chi ti ha creato",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "ciao",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "come conservare oki",
+      "intent": "conservazione",
+      "entities": []
+    },
+    {
+      "text": "come dosare brufen",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 12,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "come posso mantenere tachipirina",
+      "intent": "conservazione",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 21,
+          "endPos": 31,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "come prendere augumentin",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 14,
+          "endPos": 23,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "come ti chiami",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "conservazione antra",
+      "intent": "conservazione",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 14,
+          "endPos": 18,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "consigli assunzione tachipirina",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 20,
+          "endPos": 30,
+          "children": []
+        }
+      ]
     },
     {
       "text": "controindicazioni assunzione oki",
@@ -209,19 +440,72 @@
       ]
     },
     {
-      "text": "cosa sai dirmi sull'enterogermina?",
-      "intent": "info farmaco",
+      "text": "cos'è brufen",
+      "intent": "whatIs",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 6,
+          "endPos": 11,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "cosa posso curare con tachipirina",
+      "intent": "whatIs",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 22,
+          "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "cosa posso fare?",
+      "intent": "help",
       "entities": []
     },
     {
-      "text": "dammi informazioni su moment da 500gr.",
-      "intent": "info farmaco",
+      "text": "cosa sa fare questo bot",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "dammi tutti i remider inseriti",
+      "intent": "visPromem",
       "entities": []
     },
     {
       "text": "domani è pasqua",
       "intent": "None",
       "entities": []
+    },
+    {
+      "text": "dosaggio oki",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 9,
+          "endPos": 11,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "dosi raccomandate oki",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 18,
+          "endPos": 20,
+          "children": []
+        }
+      ]
     },
     {
       "text": "dove trovo una farmacia a san gregorio magno in via 4 novembre 26?",
@@ -251,6 +535,18 @@
       "text": "dove trovo una farmacia qui?",
       "intent": "farmacieVicine",
       "entities": []
+    },
+    {
+      "text": "è possibile conservare augumentin ?",
+      "intent": "conservazione",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 23,
+          "endPos": 32,
+          "children": []
+        }
+      ]
     },
     {
       "text": "effetti indesiderati del rinazina",
@@ -305,6 +601,46 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "elencami i reminder",
+      "intent": "visPromem",
+      "entities": []
+    },
+    {
+      "text": "elenco farmaci assunti",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
+      "text": "elenco medicinali registrati",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
+      "text": "elenco medicine",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
+      "text": "elenco promemoria",
+      "intent": "visPromem",
+      "entities": []
+    },
+    {
+      "text": "elimina il mio profilo",
+      "intent": "eliminaAccount",
+      "entities": []
+    },
+    {
+      "text": "entra",
+      "intent": "login",
+      "entities": []
+    },
+    {
+      "text": "esegui l'accesso",
+      "intent": "login",
+      "entities": []
     },
     {
       "text": "farmacie",
@@ -413,6 +749,16 @@
       ]
     },
     {
+      "text": "guida",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "guida all'uso",
+      "intent": "help",
+      "entities": []
+    },
+    {
       "text": "ho assunto troppo augumentin",
       "intent": "effettiIndesiderati",
       "entities": [
@@ -437,8 +783,52 @@
       ]
     },
     {
-      "text": "info oki task",
-      "intent": "info farmaco",
+      "text": "inserisci brufen",
+      "intent": "inserisciMedicine",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 10,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "inserisci farmaco",
+      "intent": "inserisciMedicine",
+      "entities": []
+    },
+    {
+      "text": "inserisci medicina",
+      "intent": "inserisciMedicine",
+      "entities": []
+    },
+    {
+      "text": "inserisci reminder",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "inserisci tachipirina tra i farmaci assunti",
+      "intent": "inserisciMedicine",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 10,
+          "endPos": 20,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "istruzioni",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "istruzioni d'uso",
+      "intent": "help",
       "entities": []
     },
     {
@@ -457,6 +847,16 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "lista farmaci",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
+      "text": "login",
+      "intent": "login",
+      "entities": []
     },
     {
       "text": "mal di pancia dopo aver preso oki",
@@ -495,6 +895,21 @@
       ]
     },
     {
+      "text": "modifica farmaco",
+      "intent": "modificaMedicine",
+      "entities": []
+    },
+    {
+      "text": "modifica farmaco assunto",
+      "intent": "modificaMedicine",
+      "entities": []
+    },
+    {
+      "text": "modifica lista farmaci",
+      "intent": "modificaMedicine",
+      "entities": []
+    },
+    {
       "text": "mostrami gli effetti indesiderati della tachipirina",
       "intent": "effettiIndesiderati",
       "entities": [
@@ -507,8 +922,18 @@
       ]
     },
     {
+      "text": "mostrami i farmaci che sto assumendo",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
       "text": "mostrami le farmacie nelle vicinanze",
       "intent": "farmacieVicine",
+      "entities": []
+    },
+    {
+      "text": "mostrami le notifiche che mi invii",
+      "intent": "visPromem",
       "entities": []
     },
     {
@@ -529,6 +954,56 @@
       "entities": []
     },
     {
+      "text": "nome?",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "non assumo più un farmaco",
+      "intent": "eliminaFarmaco",
+      "entities": []
+    },
+    {
+      "text": "non inviare avviso",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "non inviarmi reminder per le medicine",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "non so cosa fare",
+      "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "nuovo account",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
+      "text": "nuovo farmaco assunto",
+      "intent": "inserisciMedicine",
+      "entities": []
+    },
+    {
+      "text": "nuovo profilo",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
+      "text": "nuovo promemoria",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "nuovo promemoria farmaco assunto",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
       "text": "oki quanto fa male?",
       "intent": "effettiIndesiderati",
       "entities": [
@@ -541,9 +1016,41 @@
       ]
     },
     {
+      "text": "posso rimuovere il mio account?",
+      "intent": "eliminaAccount",
+      "entities": []
+    },
+    {
+      "text": "precauzioni assunzione oki",
+      "intent": "precauzioni",
+      "entities": []
+    },
+    {
+      "text": "qual è il tuo nome?",
+      "intent": "benvenuto",
+      "entities": []
+    },
+    {
+      "text": "quali farmaci sto prendendo",
+      "intent": "visualizzaMedicine",
+      "entities": []
+    },
+    {
       "text": "quali sono le farmacie più vicine?",
       "intent": "farmacieVicine",
       "entities": []
+    },
+    {
+      "text": "quando non prendere antra",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 20,
+          "endPos": 24,
+          "children": []
+        }
+      ]
     },
     {
       "text": "quanto fa male abusare di enterogermina",
@@ -553,6 +1060,58 @@
           "entity": "farmaco",
           "startPos": 26,
           "endPos": 38,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "registrami",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
+      "text": "registrazione",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
+      "text": "ricordami di assumere medicinale",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "ricordami di prendere il farmaco",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "rimuovi account",
+      "intent": "eliminaAccount",
+      "entities": []
+    },
+    {
+      "text": "rimuovi medicina",
+      "intent": "eliminaFarmaco",
+      "entities": []
+    },
+    {
+      "text": "rimuovi medicinale",
+      "intent": "eliminaFarmaco",
+      "entities": []
+    },
+    {
+      "text": "rimuovi reminder inserito",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "sto assumendo enterogermina",
+      "intent": "inserisciMedicine",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 14,
+          "endPos": 26,
           "children": []
         }
       ]
@@ -574,6 +1133,43 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "utilizzi enterogermina",
+      "intent": "whatIs",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 9,
+          "endPos": 21,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "visualizza promemoria",
+      "intent": "visPromem",
+      "entities": []
+    },
+    {
+      "text": "voglio creare un nuovo account",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
+      "text": "voglio eliminare tutti i miei dati",
+      "intent": "eliminaAccount",
+      "entities": []
+    },
+    {
+      "text": "voglio eseguire il login",
+      "intent": "login",
+      "entities": []
+    },
+    {
+      "text": "voglio modificare la lista dei farmaci assunti",
+      "intent": "modificaMedicine",
+      "entities": []
     }
   ],
   "versionId": "0.1",

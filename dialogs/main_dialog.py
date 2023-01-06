@@ -27,6 +27,7 @@ from dialogs.reminder_dialog import ReminderDialog
 from dialogs.remove_reminder_dialog import RemoveReminderDialog
 from dialogs.delete_account_dialog import DeleteAccountDialog
 from user_info import UserInfo
+from dialogs.help_dialog import HelpDialog
 from PharmaBot.servicesResources import db_interface
 
 class MainDialog(ComponentDialog):
@@ -36,7 +37,7 @@ class MainDialog(ComponentDialog):
                     delete_medicine_dialog:DeleteMedicineDialog, update_medicine_dialog:UpdateMedicineDialog, 
                     what_is_dialog:WhatIsDialog,how_take_dialog:HowTakeDialog,before_take_dialog:BeforeTake,
                     preservation_dialog:PreservationDialog,reminder_dialog:ReminderDialog,remove_reminder_dialog:RemoveReminderDialog,
-                    delete_account_dialog:DeleteAccountDialog,user_state:UserState):
+                    delete_account_dialog:DeleteAccountDialog,help_dialog:HelpDialog,user_state:UserState):
         super(MainDialog, self).__init__(MainDialog.__name__)
 
         self.user_profile_accessor = user_state.create_property("UserInfo")
@@ -57,7 +58,7 @@ class MainDialog(ComponentDialog):
         self._reminder_dialog_id = reminder_dialog.id
         self._remove_reminder_dialog_id = remove_reminder_dialog.id
         self._delete_account_dialog_id = delete_account_dialog.id
-
+        self._help_dialog_id = help_dialog.id
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(side_effects_dialog)
@@ -75,6 +76,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(reminder_dialog)
         self.add_dialog(remove_reminder_dialog)
         self.add_dialog(delete_account_dialog)
+        self.add_dialog(help_dialog)
         self.add_dialog(
             WaterfallDialog(
                 "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -97,7 +99,7 @@ class MainDialog(ComponentDialog):
         message_text = (
             str(step_context.options)
             if step_context.options
-            else "What can I help you with today?"
+            else "Come posso aiutarti?"
         )
         prompt_message = MessageFactory.text(
             message_text, message_text, InputHints.expecting_input
@@ -125,13 +127,6 @@ class MainDialog(ComponentDialog):
     
             # Run the SideEffectsDialog giving it whatever details we have from the LUIS call.
             return await step_context.begin_dialog(self._side_effects_dialog_id, luis_result)
-
-        if intent == Intent.GET_WEATHER.value:
-            get_weather_text = "TODO: get weather flow here"
-            get_weather_message = MessageFactory.text(
-                get_weather_text, get_weather_text, InputHints.ignoring_input
-            )
-            await step_context.context.send_activity(get_weather_message)
         
         if intent == Intent.BROCHURE_INFO.value and luis_result:
             return await step_context.begin_dialog(self._brouchure_dialog_id,luis_result)
@@ -247,6 +242,14 @@ class MainDialog(ComponentDialog):
                 no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)
                 await step_context.context.send_activity(no_logged)
                 return await step_context.next(None)
+        
+        if intent == Intent.HELP.value:
+            return await step_context.begin_dialog(self._help_dialog_id)
+        
+        if intent == Intent.WELCOME.value:
+            message = 'Ciao sono Pharma bot, lieto di conoscerti. Come posso aiutarti ?'
+            await step_context.context.send_activity(message)
+            return await step_context.next(None)
 
         else:
             didnt_understand_text = (
@@ -274,5 +277,5 @@ class MainDialog(ComponentDialog):
             #message = MessageFactory.text(msg_txt, msg_txt, InputHints.ignoring_input)
             #await step_context.context.send_activity(message)
 
-        prompt_message = "What else can I do for you?"
+        prompt_message = "Cos'altro posso fare per te?"
         return await step_context.replace_dialog(self.id, prompt_message)

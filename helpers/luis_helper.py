@@ -22,12 +22,13 @@ class Intent(Enum):
     HOW_TAKE = 'comePrendere'
     BEFORE_TAKE = 'precauzioni'
     PRESERVATION = 'conservazione'
-    GET_WEATHER = "GetWeather"
     DELETE_REMINDER = 'eliminaPromemoria'
     SHOW_REMINDER = 'visPromem'
     NONE_INTENT = "NoneIntent"
     REMINDER = 'reminder'
     DEL_ACCOUNT = 'eliminaAccount'
+    HELP = 'help'
+    WELCOME = 'benvenuto'
 
 def top_intent(intents: Dict[Intent, dict]) -> TopIntent:
     max_intent = Intent.NONE_INTENT

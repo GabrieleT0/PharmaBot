@@ -78,7 +78,3 @@ class PharmacyLocation:
 
 
         return(name,phone,address)
-
-azure_maps_api = PharmacyLocation()
-latitude,longitude = azure_maps_api.get_lat_long('Salerno','Via Gelso,69 84126')
-azure_maps_api.get_nearest_pharma(latitude,longitude)

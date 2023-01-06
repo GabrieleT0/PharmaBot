@@ -13,6 +13,6 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
-    LUIS_APP_ID = os.environ.get("LuisAppId","d4476f7d-cc5a-463d-a275-4f0a881fef87")
-    LUIS_API_KEY = os.environ.get("LuisAPIKey","e15ecb24e73348daaa330a65f6472106")
-    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","pharmabot-authoring.cognitiveservices.azure.com/")
+    LUIS_APP_ID = os.environ.get("LuisAppId","a378ee5a-4629-4816-9a21-dcb815cb7ffa")
+    LUIS_API_KEY = os.environ.get("LuisAPIKey","a5f713a1cc50454fb45a8c828c8e799e")
+    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","pharmabottuozzog-authoring.cognitiveservices.azure.com/")
