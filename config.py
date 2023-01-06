@@ -11,8 +11,8 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = os.environ.get("MicrosoftAppId", "31315b52-b5d9-4b32-9346-12b4d3445d7c")
-    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "pharmabotproject!")
+    APP_ID = os.environ.get("MicrosoftAppId", "")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     LUIS_APP_ID = os.environ.get("LuisAppId","e8d4a0b6-f422-4990-8a98-117942c0829d")
     LUIS_API_KEY = os.environ.get("LuisAPIKey","5efe6b0cf85640038a946ca1e6086ef1")
     LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","intentrecognizerpharmabot-authoring.cognitiveservices.azure.com/")

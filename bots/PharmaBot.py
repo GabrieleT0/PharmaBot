@@ -76,5 +76,8 @@ class PharmaBot(DialogBot):
                 value='nuovo farmaco assunto',
             )
         ]
-        card = HeroCard(images=[CardImage(url='D:/Desktop/PharmaBot/utility/logo.png')],title='Benvenuto su PharmaBot!',subtitle='Cosa so fare?',text='Posso cercare per te info sulle medicine, puoi creare un tuo account dove tener traccia delle medicine che stai assumendo e mostrarti le farmacie nelle vicinanze ... e non solo. Inizia subito ad usarmi.',buttons=buttons)
+        here = os.path.dirname(os.path.abspath(__file__))
+        save_path = os.path.join(here,'../utility')
+        img_path = os.path.join(save_path,"logo.png")
+        card = HeroCard(images=[CardImage(url=img_path)],title='Benvenuto su PharmaBot!',subtitle='Cosa so fare?',text='Posso cercare per te info sulle medicine, puoi creare un tuo account dove tener traccia delle medicine che stai assumendo e mostrarti le farmacie nelle vicinanze ... e non solo. Inizia subito ad usarmi.',buttons=buttons)
         return CardFactory.hero_card(card)
