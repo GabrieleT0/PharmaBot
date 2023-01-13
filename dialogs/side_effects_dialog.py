@@ -8,9 +8,9 @@ from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurn
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory
 from botbuilder.schema import InputHints
-from PharmaBot.utility.pdf_parser import PdfParser
-from PharmaBot.servicesResources.info_medicine import InfoMedicine
-from PharmaBot.utility import util_func
+from utility.pdf_parser import PdfParser
+from servicesResources.info_medicine import InfoMedicine
+from utility import util_func
 
 class SideEffectsDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):

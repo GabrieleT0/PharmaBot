@@ -35,13 +35,13 @@ from dialogs.before_take import BeforeTake
 from dialogs.preservation_dialog import PreservationDialog
 from dialogs.reminder_dialog import ReminderDialog
 from dialogs.remove_reminder_dialog import RemoveReminderDialog
-from PharmaBot.servicesResources import db_interface
+from servicesResources import db_interface
 from dialogs.delete_account_dialog import DeleteAccountDialog
 from dialogs.help_dialog import HelpDialog
 
 CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
 CONFIG = DefaultConfig()
-SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
+SETTINGS = BotFrameworkAdapterSettings('fd0c970f-aa6b-466d-8084-81489c77b686', 'RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM')
 MEMORY = MemoryStorage()
 USER_STATE = UserState(MEMORY)
 CONVERSATION_STATE = ConversationState(MEMORY)

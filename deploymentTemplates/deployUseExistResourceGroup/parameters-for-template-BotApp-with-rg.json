@@ -15,7 +15,7 @@
             "value": "free"
         },
         "newAppServicePlanLocation": {
-            "value": "westeurope"
+            "value": "west europe"
         },
         "newAppServicePlanSku": {
             "value": {
@@ -27,10 +27,10 @@
             }
         },
         "appId": {
-            "value": "e7b7eea1-309e-453f-98bb-7a6b535fc27d"
+            "value": "fd0c970f-aa6b-466d-8084-81489c77b686"
         },
         "appSecret": {
-            "value": "pharmabotproject2022!"
+            "value": "RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM"
         }
     }
 }

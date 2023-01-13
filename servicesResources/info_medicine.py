@@ -2,8 +2,8 @@
 import requests
 import http.client, urllib.parse
 import json
-from PharmaBot.utility import util_func
-from PharmaBot.utility.pdf_parser import PdfParser
+from utility import util_func
+from utility.pdf_parser import PdfParser
 from PIL import Image
 from io import BytesIO
 import matplotlib.pyplot as plt

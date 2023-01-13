@@ -28,7 +28,7 @@ from dialogs.remove_reminder_dialog import RemoveReminderDialog
 from dialogs.delete_account_dialog import DeleteAccountDialog
 from user_info import UserInfo
 from dialogs.help_dialog import HelpDialog
-from PharmaBot.servicesResources import db_interface
+from servicesResources import db_interface
 
 class MainDialog(ComponentDialog):
     def __init__(self, luis_recognizer: PharmaBotRecognizer, side_effects_dialog: SideEffectsDialog, 

@@ -19,8 +19,8 @@ from botbuilder.schema import (
     SuggestedActions,
     ConversationReference
 )
-from PharmaBot.servicesResources.computer_vision import ComputerVision
-from PharmaBot.servicesResources.info_medicine import InfoMedicine
+from servicesResources.computer_vision import ComputerVision
+from servicesResources.info_medicine import InfoMedicine
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 
 

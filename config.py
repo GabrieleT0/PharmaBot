@@ -11,8 +11,8 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = os.environ.get("MicrosoftAppId", "")
-    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    APP_ID = os.environ.get("MicrosoftAppId", "fd0c970f-aa6b-466d-8084-81489c77b686")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM")
     LUIS_APP_ID = os.environ.get("LuisAppId","e8d4a0b6-f422-4990-8a98-117942c0829d")
     LUIS_API_KEY = os.environ.get("LuisAPIKey","5efe6b0cf85640038a946ca1e6086ef1")
     LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","intentrecognizerpharmabot-authoring.cognitiveservices.azure.com/")
@@ -21,4 +21,3 @@ class DefaultConfig:
     COMPUTER_VISION_ENDPOINT = os.environ.get("ComputerVisionEndpoint","https://pharmavisiontzz.cognitiveservices.azure.com/")
     AZURE_MAP = os.environ.get("MapKey","3AHSHFUgZh5cpY6WKUyYGYyOJl6eSe43YvNGO5nNI2s")
 
-    #e7b7eea1-309e-453f-98bb-7a6b535fc27d

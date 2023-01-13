@@ -8,9 +8,9 @@ from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurn
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory, UserState
 from botbuilder.schema import InputHints,CardAction,SuggestedActions,ActionTypes
-from PharmaBot.servicesResources import db_interface
-from PharmaBot.servicesResources.info_medicine import InfoMedicine
-from PharmaBot.utility import util_func
+from servicesResources import db_interface
+from servicesResources.info_medicine import InfoMedicine
+from utility import util_func
 from user_info import UserInfo
 
 class UpdateMedicineDialog(ComponentDialog):

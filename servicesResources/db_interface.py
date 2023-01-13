@@ -1,7 +1,7 @@
 from datetime import datetime
 import pyodbc
-from PharmaBot.utility import util_func
-from PharmaBot.user_info import UserInfo
+from utility import util_func
+from user_info import UserInfo
 SERVER = 'pharmabotserver.database.windows.net'
 DATABASE = 'pharmaBotDB'
 USERNAME = 'azureuser'

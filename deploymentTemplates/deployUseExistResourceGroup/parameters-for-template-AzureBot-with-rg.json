@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "azureBotId": {
-            "value": "31315b52-b5d9-4b32-9346-12b4d3445d7c"
+            "value": "EchoBotGabT"
         },
         "azureBotSku": {
-            "value": "S1"
+            "value": "F0"
         },
         "azureBotRegion": {
             "value": "global"
@@ -15,7 +15,7 @@
             "value": ""
         },
         "appId": {
-            "value": "e7b7eea1-309e-453f-98bb-7a6b535fc27d"
+            "value": "fd0c970f-aa6b-466d-8084-81489c77b686"
         }
     }
 }

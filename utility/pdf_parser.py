@@ -2,7 +2,7 @@ from io import BytesIO
 import re
 import PyPDF2
 import requests
-from PharmaBot.utility import util_func
+from utility import util_func
 
 class PdfParser:
     def __init__(self,pdf_url):

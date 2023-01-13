@@ -10,10 +10,10 @@ from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurn
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory
 from botbuilder.schema import InputHints,ConversationReference
-from PharmaBot.utility.pdf_parser import PdfParser
-from PharmaBot.servicesResources.info_medicine import InfoMedicine
-from PharmaBot.servicesResources import db_interface
-from PharmaBot.utility import util_func 
+from utility.pdf_parser import PdfParser
+from servicesResources.info_medicine import InfoMedicine
+from servicesResources import db_interface
+from utility import util_func 
 import requests
 from botbuilder.schema import (
     ChannelAccount,
