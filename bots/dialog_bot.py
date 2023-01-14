@@ -56,7 +56,8 @@ class DialogBot(ActivityHandler):
 
     async def on_message_activity(self, turn_context: TurnContext):
         if turn_context.activity.attachments is not None:
-            await self._send_suggested_actions(turn_context,)
+            if len(turn_context.activity.attachments) > 0: 
+                await self._send_suggested_actions(turn_context,)
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,

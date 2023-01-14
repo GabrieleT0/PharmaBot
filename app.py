@@ -41,7 +41,7 @@ from dialogs.help_dialog import HelpDialog
 
 CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
 CONFIG = DefaultConfig()
-SETTINGS = BotFrameworkAdapterSettings('fd0c970f-aa6b-466d-8084-81489c77b686', 'RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM')
+SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 MEMORY = MemoryStorage()
 USER_STATE = UserState(MEMORY)
 CONVERSATION_STATE = ConversationState(MEMORY)

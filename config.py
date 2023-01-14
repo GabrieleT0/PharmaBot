@@ -13,11 +13,11 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "fd0c970f-aa6b-466d-8084-81489c77b686")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM")
-    LUIS_APP_ID = os.environ.get("LuisAppId","e8d4a0b6-f422-4990-8a98-117942c0829d")
-    LUIS_API_KEY = os.environ.get("LuisAPIKey","5efe6b0cf85640038a946ca1e6086ef1")
-    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","intentrecognizerpharmabot-authoring.cognitiveservices.azure.com/")
-    BING_SEARCH_API_KEY = os.environ.get("BingSubscriptionKey","0eb55333dfea49a9bfa16d6a1a502684")
-    COMPUTER_VISION_KEY = os.environ.get("ComputerVisonKey","2e27ac7a95824bc2b25ed1ed555ff1e3")
-    COMPUTER_VISION_ENDPOINT = os.environ.get("ComputerVisionEndpoint","https://pharmavisiontzz.cognitiveservices.azure.com/")
-    AZURE_MAP = os.environ.get("MapKey","3AHSHFUgZh5cpY6WKUyYGYyOJl6eSe43YvNGO5nNI2s")
+    LUIS_APP_ID = os.environ.get("LuisAppId","339a8857-bcf4-4af8-9920-abe414b569f0")
+    LUIS_API_KEY = os.environ.get("LuisAPIKey","40c4f8451f0f48c3af8cfc9c66f1f9bf")
+    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","https://luisbotres-authoring.cognitiveservices.azure.com/")
+    BING_SEARCH_API_KEY = os.environ.get("BingSubscriptionKey","5100efc3ae4743419d2d8d1447ed05e6")
+    COMPUTER_VISION_KEY = os.environ.get("ComputerVisonKey","0aec1dee0fca425c824e72e6acff66c8")
+    COMPUTER_VISION_ENDPOINT = os.environ.get("ComputerVisionEndpoint","https://pharmarecognization.cognitiveservices.azure.com/")
+    AZURE_MAP = os.environ.get("MapKey","7N5UWI3tf7dTH5vJ3bIbkkSFnLOiKwumQKm5QqP2bJE")
 
