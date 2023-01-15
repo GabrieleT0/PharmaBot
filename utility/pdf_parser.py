@@ -6,17 +6,14 @@ from utility import util_func
 
 class PdfParser:
     def __init__(self,pdf_url):
-        try:
-            r = requests.get(pdf_url)
-            with BytesIO(r.content) as data:
-                read_pdf = PyPDF2.PdfFileReader(data)
-                data = ""
-                for i in range(read_pdf.numPages):
-                    pageObj = read_pdf.getPage(i)
-                    data += pageObj.extract_text()
-            self.pdf_data = data
-        except:
-            pdf_url = False
+        r = requests.get(pdf_url)
+        with BytesIO(r.content) as data:
+            read_pdf = PyPDF2.PdfReader(data)
+            data = ""
+            for i in range(len(read_pdf.pages)):
+                pageObj = read_pdf.pages[i]
+                data += pageObj.extract_text()
+        self.pdf_data = data
 
     '''
     By using a regex, filter the text in the pdf to extract only the medicine side effects.
@@ -61,4 +58,3 @@ class PdfParser:
         preservation = util_func.clean_data(preservation[0])
         
         return preservation
-    

@@ -36,14 +36,18 @@ class InfoMedicine:
         return pdf_link
 
     def get_img(self,medicine_info):
-        query = f"{medicine_info} medicinale"
-        params = {"q":query,'setLang':'it-IT','mkt':'it-IT'}
-        response = requests.get(self.search_url_img,headers=self.headers,params=params)
-        response.raise_for_status()
-        response_results = response.json()
-        thumbnail_urls = [img["thumbnailUrl"] for img in response_results["value"][:16]]
+        try:
+            query = f"{medicine_info} medicinale"
+            params = {"q":query,'setLang':'it-IT','mkt':'it-IT'}
+            response = requests.get(self.search_url_img,headers=self.headers,params=params)
+            response.raise_for_status()
+            response_results = response.json()
+            thumbnail_urls = [img["thumbnailUrl"] for img in response_results["value"][:16]]
+
+            return thumbnail_urls[0]
+        except:
+            return False
         
-        return thumbnail_urls[0]
     
     def get_what(self,medicine_info):
         query = f"a cosa serve {medicine_info}"
