@@ -2,7 +2,8 @@ from datetime import datetime
 import pyodbc
 from utility import util_func
 from user_info import UserInfo
-SERVER = 'pharmabotserver.database.windows.net'
+
+SERVER = 'pharmabotdb.database.windows.net'
 DATABASE = 'pharmaBotDB'
 USERNAME = 'azureuser'
 PASSWORD = 'pharmabotproject2022!'
@@ -12,9 +13,10 @@ def insert_user(email,firstname,lastname,password):
     try:
         with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("INSERT INTO dbo.users([email],[password],[firstName],[lastName]) VALUES (?,?,?,?)",email,password,firstname,lastname)
+                cursor.execute("INSERT INTO dbo.users([email],[pwd],[firstName],[lastName]) VALUES (?,?,?,?)",email,password,firstname,lastname)
                 return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 def insert_medicine(email,name,type=None,grams=None,expirationDate=None):
@@ -32,7 +34,7 @@ def get_pwd(email):
     try:
         with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT password FROM dbo.users WHERE [email] = ?",email)
+                cursor.execute("SELECT pwd FROM dbo.users WHERE [email] = ?",email)
                 row = cursor.fetchall()
 
                 return row[0][0]

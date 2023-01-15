@@ -1,0 +1,16 @@
+CREATE TABLE medicine(
+	id int NOT NULL IDENTITY,
+	medicineName varchar(255),
+	medicineType varchar(255),
+	medicineGrams varchar(255),
+	expirationDate varchar(255),
+	email varchar(255)
+	PRIMARY KEY (id)
+	FOREIGN KEY (email) REFERENCES [dbo].[users](email),
+)
+
+CREATE TABLE reminders(
+	ID int NOT NULL IDENTITY,
+	conversationID  varchar(255) NOT NULL,
+	reminderText varchar(255) NOT NULL,
+)
