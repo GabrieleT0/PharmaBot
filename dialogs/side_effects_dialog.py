@@ -53,7 +53,10 @@ class SideEffectsDialog(ComponentDialog):
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
         side_effects = pdf_file.get_side_effects()
-        side_effects = util_func.duplicate_new_line(side_effects)
+        if side_effects != False:
+            side_effects = util_func.duplicate_new_line(side_effects)
+        else:
+            side_effects = 'Mi dispiace, non sono riuscito a trovare questo farmaco'
 
         prompt_message = MessageFactory.text(
                 side_effects, side_effects, InputHints.expecting_input

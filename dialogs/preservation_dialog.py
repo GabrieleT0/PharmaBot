@@ -52,11 +52,13 @@ class PreservationDialog(ComponentDialog):
         bing_api = InfoMedicine()
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
-        side_effects = pdf_file.get_preservation()
-        side_effects = util_func.duplicate_new_line(side_effects)
-
+        preservation = pdf_file.get_preservation()
+        if preservation != False:
+            preservation = util_func.duplicate_new_line(preservation)
+        else:
+            preservation = 'Mi dispiace, non sono riuscito a trovare questo farmaco'
         prompt_message = MessageFactory.text(
-                side_effects, side_effects, InputHints.expecting_input
+                preservation, preservation, InputHints.expecting_input
             )
         #returning the results at the users
         await step_context.prompt(

@@ -8,16 +8,13 @@ DATABASE = 'pharmaBotDB'
 USERNAME = 'azureuser'
 PASSWORD = 'pharmabotproject2022!'
 DRIVER = '{ODBC Driver 18 for SQL Server}'
+#DRIVER = '{FreeTDS}'
  
 def insert_user(email,firstname,lastname,password):
-    try:
-        with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
-            with conn.cursor() as cursor:
-                cursor.execute("INSERT INTO dbo.users([email],[pwd],[firstName],[lastName]) VALUES (?,?,?,?)",email,password,firstname,lastname)
-                return True
-    except Exception as e:
-        print(e)
-        return False
+    with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("INSERT INTO dbo.users([email],[pwd],[firstName],[lastName]) VALUES (?,?,?,?)",email,password,firstname,lastname)
+            return True
 
 def insert_medicine(email,name,type=None,grams=None,expirationDate=None):
     try:

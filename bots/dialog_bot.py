@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+import re
 from typing import Dict
 from botbuilder.core import ActivityHandler, ConversationState, UserState, TurnContext
 from botbuilder.dialogs import Dialog
@@ -58,6 +59,8 @@ class DialogBot(ActivityHandler):
         if turn_context.activity.attachments is not None:
             if len(turn_context.activity.attachments) > 0: 
                 await self._send_suggested_actions(turn_context,)
+                message = MessageFactory.text("Cos'altro posso fare per te?")
+                #await turn_context.send_activity(message)
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,
@@ -75,10 +78,15 @@ class DialogBot(ActivityHandler):
         attach_obj = turn_context.activity.attachments[0]
         computer_vision = ComputerVision()
         img_text = computer_vision.get_text_from_img(attach_obj.content_url)
+        img_text = re.sub(r"[^a-zA-Z0-9]+"," ",img_text)
         bing_api = InfoMedicine()
         pdf_link = bing_api.get_brochure(img_text)
-        img_url = bing_api.get_img(img_text)
-        card = HeroCard(images=[CardImage(url=img_url)],buttons=[CardAction(type=ActionTypes.download_file,title=f'Clicca e visualizza il foglio illustrativo di {img_text.capitalize()} in pdf',value=pdf_link)],)
-        card = CardFactory.hero_card(card)
-        message = MessageFactory.attachment(card)
-        await turn_context.send_activity(message)
+        if isinstance(pdf_link,str):
+            img_url = bing_api.get_img(img_text)
+            card = HeroCard(images=[CardImage(url=img_url)],buttons=[CardAction(type=ActionTypes.download_file,title=f'Clicca e visualizza il foglio illustrativo di {img_text.capitalize()} in pdf',value=pdf_link)],)
+            card = CardFactory.hero_card(card)
+            message = MessageFactory.attachment(card)
+        else:
+            message = MessageFactory.text('Non sono riuscito a trovare il foglio illustrativo per il farmaco, riprova a fotografare meglio la scatola.')
+        
+        return await turn_context.send_activity(message)

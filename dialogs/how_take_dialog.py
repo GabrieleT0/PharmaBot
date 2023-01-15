@@ -52,11 +52,14 @@ class HowTakeDialog(ComponentDialog):
         bing_api = InfoMedicine()
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
-        side_effects = pdf_file.get_how_take()
-        side_effects = util_func.duplicate_new_line(side_effects)
+        how_take = pdf_file.get_how_take()
+        if isinstance(how_take,str):
+            how_take = util_func.duplicate_new_line(how_take)
+        else:
+            how_take = 'Mi dispiace, non sono riuscito a trovare questo farmaco'
 
         prompt_message = MessageFactory.text(
-                side_effects, side_effects, InputHints.expecting_input
+                how_take, how_take, InputHints.expecting_input
             )
         #returning the results at the users
         await step_context.prompt(

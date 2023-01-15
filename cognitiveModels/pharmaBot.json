@@ -143,6 +143,11 @@
       "entities": []
     },
     {
+      "text": "accesso",
+      "intent": "login",
+      "entities": []
+    },
+    {
       "text": "aiutami",
       "intent": "help",
       "entities": []
@@ -150,6 +155,16 @@
     {
       "text": "aiuto",
       "intent": "help",
+      "entities": []
+    },
+    {
+      "text": "alert farmaco",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "alert medicinale",
+      "intent": "reminder",
       "entities": []
     },
     {
@@ -256,9 +271,21 @@
       "entities": []
     },
     {
+      "text": "come assumere farmaco",
+      "intent": "comePrendere",
+      "entities": []
+    },
+    {
       "text": "come conservare oki",
       "intent": "conservazione",
-      "entities": []
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 16,
+          "endPos": 18,
+          "children": []
+        }
+      ]
     },
     {
       "text": "come dosare brufen",
@@ -285,6 +312,18 @@
       ]
     },
     {
+      "text": "come posso prendere zirtec",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 20,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "come prendere augumentin",
       "intent": "comePrendere",
       "entities": [
@@ -292,6 +331,18 @@
           "entity": "farmaco",
           "startPos": 14,
           "endPos": 23,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "come prendere enterogermina",
+      "intent": "comePrendere",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 14,
+          "endPos": 26,
           "children": []
         }
       ]
@@ -312,6 +363,21 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "conservazione farmaco",
+      "intent": "conservazione",
+      "entities": []
+    },
+    {
+      "text": "conservazione medicina",
+      "intent": "conservazione",
+      "entities": []
+    },
+    {
+      "text": "conservazione medicinale",
+      "intent": "conservazione",
+      "entities": []
     },
     {
       "text": "consigli assunzione tachipirina",
@@ -452,6 +518,18 @@
       ]
     },
     {
+      "text": "cosa devo sapere prima di prendere rabex",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 35,
+          "endPos": 39,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "cosa posso curare con tachipirina",
       "intent": "whatIs",
       "entities": [
@@ -459,6 +537,18 @@
           "entity": "farmaco",
           "startPos": 22,
           "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "cosa posso fare se ho aperto tadap",
+      "intent": "conservazione",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 29,
+          "endPos": 33,
           "children": []
         }
       ]
@@ -472,6 +562,18 @@
       "text": "cosa sa fare questo bot",
       "intent": "help",
       "entities": []
+    },
+    {
+      "text": "da sapere prima di prendere oki",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 28,
+          "endPos": 30,
+          "children": []
+        }
+      ]
     },
     {
       "text": "dammi tutti i remider inseriti",
@@ -822,6 +924,26 @@
       ]
     },
     {
+      "text": "inviami alert per medicina",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "inviami notifica per medicina",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "inviami un reminder",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "iscrizione",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
       "text": "istruzioni",
       "intent": "help",
       "entities": []
@@ -979,6 +1101,11 @@
       "entities": []
     },
     {
+      "text": "nuova iscrizione",
+      "intent": "registrazione",
+      "entities": []
+    },
+    {
       "text": "nuovo account",
       "intent": "registrazione",
       "entities": []
@@ -1004,6 +1131,11 @@
       "entities": []
     },
     {
+      "text": "nuovo promemoria medicina",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
       "text": "oki quanto fa male?",
       "intent": "effettiIndesiderati",
       "entities": [
@@ -1016,6 +1148,48 @@
       ]
     },
     {
+      "text": "per quanto tempo posso conservare pantopan",
+      "intent": "conservazione",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 34,
+          "endPos": 41,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "posso assumere antra se sto assumendo oki?",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 15,
+          "endPos": 19,
+          "children": []
+        },
+        {
+          "entity": "farmaco",
+          "startPos": 38,
+          "endPos": 40,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "posso assumere tachipirina se incinta?",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 15,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "posso rimuovere il mio account?",
       "intent": "eliminaAccount",
       "entities": []
@@ -1023,6 +1197,52 @@
     {
       "text": "precauzioni assunzione oki",
       "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 23,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "precauzioni zirtec",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 12,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "prima di assumere rabex",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 18,
+          "endPos": 22,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "promemoria assunzione",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "promemoria farmaco",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "promemoria medicina",
+      "intent": "reminder",
       "entities": []
     },
     {
@@ -1039,6 +1259,18 @@
       "text": "quali sono le farmacie più vicine?",
       "intent": "farmacieVicine",
       "entities": []
+    },
+    {
+      "text": "quando è sconsigliato assumere calcifolin",
+      "intent": "precauzioni",
+      "entities": [
+        {
+          "entity": "farmaco",
+          "startPos": 31,
+          "endPos": 40,
+          "children": []
+        }
+      ]
     },
     {
       "text": "quando non prendere antra",
@@ -1075,12 +1307,27 @@
       "entities": []
     },
     {
+      "text": "ricorda pillola",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
       "text": "ricordami di assumere medicinale",
       "intent": "reminder",
       "entities": []
     },
     {
       "text": "ricordami di prendere il farmaco",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "ricordami di prendere medicina",
+      "intent": "reminder",
+      "entities": []
+    },
+    {
+      "text": "ricordami farmaco",
       "intent": "reminder",
       "entities": []
     },
@@ -1102,6 +1349,11 @@
     {
       "text": "rimuovi reminder inserito",
       "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "sigin",
+      "intent": "login",
       "entities": []
     },
     {

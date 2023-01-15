@@ -52,11 +52,14 @@ class BeforeTake(ComponentDialog):
         bing_api = InfoMedicine()
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
-        side_effects = pdf_file.before_take()
-        side_effects = util_func.duplicate_new_line(side_effects)
-
+        before_take = pdf_file.before_take()
+        if isinstance(before_take,str):
+            before_take = util_func.duplicate_new_line(before_take)
+        else:
+            before_take = 'Mi dispiace, non sono riuscito a trovare questo farmaco'
+            
         prompt_message = MessageFactory.text(
-                side_effects, side_effects, InputHints.expecting_input
+                before_take, before_take, InputHints.expecting_input
             )
         #returning the results at the users
         await step_context.prompt(

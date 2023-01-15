@@ -49,7 +49,6 @@ class ComputerVision:
                     text += ' ' + line.text
                     #print(line.bounding_box)
         text = text_result.lines[0].text + ' ' + text_result.lines[1].text
-        print(text)
         
         os.remove('tmp.jpg')
         return text

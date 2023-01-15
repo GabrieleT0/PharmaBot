@@ -54,8 +54,11 @@ class WhatIsDialog(ComponentDialog):
         pdf_link = bing_api.get_brochure(medicine_info.name)
         pdf_file = PdfParser(pdf_link)
         what_is = pdf_file.get_what_is_name()
-        what_is = util_func.duplicate_new_line(what_is)
-
+        if what_is != False:
+            what_is = util_func.duplicate_new_line(what_is)
+        else:
+            what_is = 'Mi dispiace, non sono riuscito a trovare questo farmaco'
+            
         prompt_message = MessageFactory.text(
                 what_is, what_is, InputHints.expecting_input
             )
