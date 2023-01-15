@@ -15,8 +15,7 @@ def insert_user(email,firstname,lastname,password):
             with conn.cursor() as cursor:
                 cursor.execute("INSERT INTO dbo.users([email],[pwd],[firstName],[lastName]) VALUES (?,?,?,?)",email,password,firstname,lastname)
                 return True
-    except Exception as e:
-        print(e)
+    except:
         return False
 
 def insert_medicine(email,name,type=None,grams=None,expirationDate=None):

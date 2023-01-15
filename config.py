@@ -11,10 +11,10 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = os.environ.get("MicrosoftAppId", "")
-    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
-    #APP_ID = os.environ.get("MicrosoftAppId", "fd0c970f-aa6b-466d-8084-81489c77b686")
-    #APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM")
+    #APP_ID = os.environ.get("MicrosoftAppId", "")
+    #APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    APP_ID = os.environ.get("MicrosoftAppId", "fd0c970f-aa6b-466d-8084-81489c77b686")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "RhY8Q~ZgSUr.D5CGjakCT_JqchgXa3zOk0tzWaqM")
     LUIS_APP_ID = os.environ.get("LuisAppId","8742e0bc-8bba-4af3-bfae-a51eba0f49cb")
     LUIS_API_KEY = os.environ.get("LuisAPIKey","49d1ca646ffd4ab4998c11b700442e04")
     LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName","pharmabotnlpgab-authoring.cognitiveservices.azure.com/")
