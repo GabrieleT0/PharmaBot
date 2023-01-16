@@ -735,6 +735,21 @@
       "entities": []
     },
     {
+      "text": "elimina notifica",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "elimina promemoria",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
+      "text": "elimina reminder",
+      "intent": "eliminaPromemoria",
+      "entities": []
+    },
+    {
       "text": "entra",
       "intent": "login",
       "entities": []

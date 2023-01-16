@@ -1,3 +1,11 @@
+CREATE TABLE users(
+	email varchar(255) NOT NULL,
+	pwd varchar(255) NOT NULL,
+	firstName varchar(255),
+	lastName varchar(255),
+	PRIMARY KEY (email)
+)
+
 CREATE TABLE medicine(
 	id int NOT NULL IDENTITY,
 	medicineName varchar(255),

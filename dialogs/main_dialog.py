@@ -144,7 +144,7 @@ class MainDialog(ComponentDialog):
                 return await step_context.next(None)
 
         if intent == Intent.LOGIN.value and luis_result:
-            if session_account.email is None:
+            if session_account.email is None or session_account.email == 'None' or session_account.name == 'None':
                 return await step_context.begin_dialog(self._login_dialog_id,luis_result)
             else:
                 alredy_login = (f"Hai già fatto il login come {session_account.firstName} {session_account.lastName}")
@@ -163,7 +163,7 @@ class MainDialog(ComponentDialog):
         
         if intent == Intent.MEDICINE_LIST.value and luis_result:
             medicineList = True
-            if session_account.email is not None:
+            if session_account.email is not None or session_account.email != 'None':
                 if session_account.medicine is not None:
                     message_text = 'Ecco le medicine salvate nel tuo account: \n\n'
                     message_text += session_account.medicine
@@ -175,7 +175,6 @@ class MainDialog(ComponentDialog):
                     message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
                     await step_context.context.send_activity(message_text)
                     return await step_context.next(None)
-
             else:
                 no_logged = (f"Devi eseguire il login o registrarti per usare questa funzionalità")
                 no_logged = MessageFactory.text(no_logged, no_logged, InputHints.ignoring_input)

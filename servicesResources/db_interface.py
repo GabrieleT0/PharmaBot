@@ -7,8 +7,7 @@ SERVER = 'pharmabotdb.database.windows.net'
 DATABASE = 'pharmaBotDB'
 USERNAME = 'azureuser'
 PASSWORD = 'pharmabotproject2022!'
-DRIVER = '{ODBC Driver 18 for SQL Server}'
-#DRIVER = '{FreeTDS}'
+DRIVER = '{ODBC Driver 17 for SQL Server}'
  
 def insert_user(email,firstname,lastname,password):
     with pyodbc.connect('DRIVER='+DRIVER+';SERVER=tcp:'+SERVER+';PORT=1433;DATABASE='+DATABASE+';UID='+USERNAME+';PWD='+ PASSWORD) as conn:
