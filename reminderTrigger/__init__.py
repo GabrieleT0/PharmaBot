@@ -2,7 +2,7 @@ import azure.functions as func
 import requests
 import logging
 
-URL = 'http://localhost:3978'
+URL = 'https://pharmabotapp.azurewebsites.net/'
 
 def main(mytimer: func.TimerRequest) -> None:
     requests.get(f'{URL}/api/notify')    

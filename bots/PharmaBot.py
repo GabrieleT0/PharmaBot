@@ -42,6 +42,12 @@ class PharmaBot(DialogBot):
                     turn_context,
                     self.conversation_state.create_property("DialogState"),
                 )
+                
+        conversation_reference = TurnContext.get_conversation_reference(turn_context.activity)
+        self.conversation_references[
+            conversation_reference.user.id
+        ] = conversation_reference
+
     #TODO:INSERT PATH FOR FIND FILE EVEN IF THE APP ISN'T ON THIS PC
     def welcome_card(self) -> Attachment:
         buttons = [

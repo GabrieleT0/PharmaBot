@@ -220,18 +220,24 @@ class MainDialog(ComponentDialog):
         if intent == Intent.SHOW_REMINDER.value and luis_result:
             conversation_references = TurnContext.get_conversation_reference(step_context.context.activity)
             reminders = db_interface.get_str_reminder(conversation_references.user.id)
-            if len(reminders) > 0:
-                message_text = 'Ecco i promemoria che hai inserito nel tuo account: \n\n'
-                for reminder in reminders:
-                    message_text += reminder[0] + '\n\n'
-                message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
-                await step_context.context.send_activity(message_text)
-                return await step_context.next(None)
+            if isinstance(reminders,list):
+                if len(reminders) > 0:
+                    message_text = 'Ecco i promemoria che hai inserito nel tuo account: \n\n'
+                    for reminder in reminders:
+                        message_text += reminder[0] + '\n\n'
+                    message_text = MessageFactory.text(message_text,message_text,InputHints.ignoring_input)
+                    await step_context.context.send_activity(message_text)
+                    return await step_context.next(None)
+                else:
+                    no_reminder = (f"Non hai registrato ancora nessun promemoria.")
+                    no_reminder = MessageFactory.text(no_reminder, no_reminder, InputHints.ignoring_input)
+                    await step_context.context.send_activity(no_reminder)
+                    return await step_context.next(None)
             else:
-                no_reminder = (f"Non hai registrato ancora nessun promemoria.")
-                no_reminder = MessageFactory.text(no_reminder, no_reminder, InputHints.ignoring_input)
-                await step_context.context.send_activity(no_reminder)
-                return await step_context.next(None)
+                    no_reminder = (f"Non hai registrato ancora nessun promemoria.")
+                    no_reminder = MessageFactory.text(no_reminder, no_reminder, InputHints.ignoring_input)
+                    await step_context.context.send_activity(no_reminder)
+                    return await step_context.next(None)
         
         if intent == Intent.DEL_ACCOUNT.value and luis_result:
             if session_account.email is not None:
