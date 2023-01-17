@@ -144,7 +144,7 @@ class MainDialog(ComponentDialog):
                 return await step_context.next(None)
 
         if intent == Intent.LOGIN.value and luis_result:
-            if session_account.email is None or session_account.email == 'None' or session_account.firstName == 'None':
+            if session_account.email is None or session_account.firstName is None or session_account.email == 'None' or session_account.firstName == 'None':
                 return await step_context.begin_dialog(self._login_dialog_id,luis_result)
             else:
                 alredy_login = (f"Hai già fatto il login come {session_account.firstName} {session_account.lastName}")

@@ -1126,6 +1126,11 @@
       "entities": []
     },
     {
+      "text": "nuovo farmaco",
+      "intent": "inserisciMedicine",
+      "entities": []
+    },
+    {
       "text": "nuovo farmaco assunto",
       "intent": "inserisciMedicine",
       "entities": []
@@ -1251,6 +1256,11 @@
       "entities": []
     },
     {
+      "text": "promemoria attivi",
+      "intent": "visPromem",
+      "entities": []
+    },
+    {
       "text": "promemoria farmaco",
       "intent": "reminder",
       "entities": []
@@ -1310,6 +1320,11 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "registra farmaco",
+      "intent": "inserisciMedicine",
+      "entities": []
     },
     {
       "text": "registrami",
