@@ -3,7 +3,7 @@ import pyodbc
 from utility import util_func
 from user_info import UserInfo
 
-SERVER = 'pharmabotdb.database.windows.net'
+SERVER = 'pharmabotdb1.database.windows.net'
 DATABASE = 'pharmaBotDB'
 USERNAME = 'azureuser'
 PASSWORD = 'pharmabotproject2022!'

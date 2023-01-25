@@ -252,7 +252,7 @@ class MainDialog(ComponentDialog):
             return await step_context.begin_dialog(self._help_dialog_id)
         
         if intent == Intent.WELCOME.value:
-            message = 'Ciao sono Pharma bot, lieto di conoscerti. Come posso aiutarti ?'
+            message = 'Ciao sono Pharma bot, lieto di conoscerti.'
             await step_context.context.send_activity(message)
             return await step_context.next(None)
 

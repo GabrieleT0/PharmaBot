@@ -35,7 +35,8 @@ class PharmaBot(DialogBot):
             # Greet anyone that was not the target (recipient) of this message.
             # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
             if member.id != turn_context.activity.recipient.id:
-                message = MessageFactory.attachment(self.welcome_card())
+                #message = MessageFactory.attachment(self.welcome_card())
+                message = MessageFactory.text('Benvenuto su **PharmaBot**, se non sai cosa posso fare, digita aiuto.')
                 await turn_context.send_activity(message)
                 await DialogHelper.run_dialog(
                     self.dialog,
@@ -48,7 +49,6 @@ class PharmaBot(DialogBot):
             conversation_reference.user.id
         ] = conversation_reference
 
-    #TODO:INSERT PATH FOR FIND FILE EVEN IF THE APP ISN'T ON THIS PC
     def welcome_card(self) -> Attachment:
         buttons = [
             CardAction(
@@ -85,5 +85,6 @@ class PharmaBot(DialogBot):
         here = os.path.dirname(os.path.abspath(__file__))
         save_path = os.path.join(here,'../utility')
         img_path = os.path.join(save_path,"logo.png")
-        card = HeroCard(images=[CardImage(url=img_path)],title='Benvenuto su PharmaBot!',subtitle='Cosa so fare?',text='Posso cercare per te info sulle medicine, puoi creare un tuo account dove tener traccia delle medicine che stai assumendo e mostrarti le farmacie nelle vicinanze ... e non solo. Inizia subito ad usarmi.',buttons=buttons)
+        card = HeroCard(images=[CardImage(url=img_path)],title='Benvenuto su PharmaBot!',subtitle='Cosa so fare?',text='Posso cercare per te info sulle medicine, puoi creare un tuo account dove tener traccia delle medicine che stai assumendo e mostrarti le farmacie nelle vicinanze ... e non solo. Inizia subito ad usarmi.',buttons=buttons,)
+        
         return CardFactory.hero_card(card)

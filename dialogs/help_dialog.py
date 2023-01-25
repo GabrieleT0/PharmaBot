@@ -110,10 +110,10 @@ class HelpDialog(ComponentDialog):
                 type=ActionTypes.im_back,
                 value='nuovo promemoria',
             ),
-            ]
+            ],
         )
 
-        message = MessageFactory.attachment(CardFactory.hero_card(card))
-        await step_context.context.send_activity(message)
+        #message = MessageFactory.attachment(CardFactory.hero_card(card))
+        #await step_context.context.send_activity(message)
         return await step_context.end_dialog()
     
