@@ -4,7 +4,7 @@ from utility import util_func
 from user_info import UserInfo
 
 SERVER = 'pharmabotdb1.database.windows.net'
-DATABASE = 'pharmaBotDB'
+DATABASE = 'pharmadb'
 USERNAME = 'azureuser'
 PASSWORD = 'pharmabotproject2022!'
 DRIVER = '{ODBC Driver 17 for SQL Server}'
